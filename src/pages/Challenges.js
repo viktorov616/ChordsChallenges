@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-export default function Challenges() {
+import ChallengesList from '../components/ChallengesList';
+
+export default function Challenges(props) {
   return (
-    <div>Challenges</div>
+    <div>
+      <ChallengesList challenges={props.challenges} />
+    </div>
   );
 }
+
+Challenges.propTypes = {
+  challenges: PropTypes.object,
+};
+
+Challenges.defaultProps = {
+  challenges: {},
+};
