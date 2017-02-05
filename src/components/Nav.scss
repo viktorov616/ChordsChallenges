@@ -1,0 +1,18 @@
+.nav {
+  margin: 0;
+  padding: 0;
+
+  background-color: $secondary-color;
+
+  &__item {
+    display: inline-block;
+
+    border-right: 1px solid $primary-color;
+
+    list-style: none;
+
+    &:first-child {
+      border-left: 1px solid $primary-color;
+    }
+  }
+}

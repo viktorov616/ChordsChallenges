@@ -17,6 +17,7 @@ const router = (
       <Route path="/" components={App}>
         <IndexRoute component={Challenges} />
         <Route path="/challenge/:challengeId" component={Challenge} />
+        <Route path="/challenge" component={Challenge} />
       </Route>
     </Router>
   </Provider>
