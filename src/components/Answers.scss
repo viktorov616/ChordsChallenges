@@ -1,0 +1,52 @@
+.answers {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 50px;
+
+  width: 100%;
+
+  &__item {
+    position: relative;
+
+    width: 50px;
+    height: 50px;
+
+    margin-right: 5px;
+
+    border: 3px solid $secondary-color;
+    border-radius: 50%;
+
+    &--current {
+      &:after {
+        content: '';
+
+        position: absolute;
+        left: 50%;
+        top: 50%;
+
+        width: 20px;
+        height: 20px;
+
+        margin-left: -10px;
+        margin-top: -10px;
+
+        border-radius: 50%;
+
+        background-color: $secondary-color;
+      }
+    }
+
+    &--correct {
+      border-color: #008000;
+
+      background-color: #008000;
+    }
+
+    &--wrong {
+      border-color: #b00000;
+
+      background-color: #b00000;
+    }
+  }
+}
