@@ -15,8 +15,6 @@ export default function Answers(props) {
     currentAnswerText = '';
   }
 
-  console.log(props.lastAnswer);
-
   return (
     <div className="answers">
       <div className="answers__items">

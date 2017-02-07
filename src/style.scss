@@ -2,10 +2,13 @@
 @import 'styles/scaffolding.scss';
 @import 'styles/variables.scss';
 
+@import 'styles/btn.scss';
+
 @import 'pages/Challenge.scss';
 
-@import 'components/Nav.scss';
-@import 'components/NavLink.scss';
+@import 'components/Answers.scss';
+@import 'components/AudioControls.scss';
 @import 'components/ChallengesList.scss';
 @import 'components/ChallengesItem.scss';
-@import 'components/Answers.scss';
+@import 'components/Nav.scss';
+@import 'components/NavLink.scss';
