@@ -9,6 +9,7 @@ const defaultState = {
   currentChordsSounds: [],
   stage: 0,
   lastAnswer: null,
+  userAnswer: null,
 };
 
 export default function challenge(state = defaultState, action) {

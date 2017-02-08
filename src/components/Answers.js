@@ -1,15 +1,17 @@
 import React, { PropTypes } from 'react';
 
+import checkStringNullPropType from '../utility/checkStringNullPropType';
+
 export default function Answers(props) {
   const basicCurrentAnswerClass = 'answers__current-answer';
-  const currentAnswerClass = (props.lastAnswer)
+  const currentAnswerClass = (props.userAnswer)
     ? `${basicCurrentAnswerClass} ${basicCurrentAnswerClass}--correct`
     : `${basicCurrentAnswerClass} ${basicCurrentAnswerClass}--wrong`;
   let currentAnswerText;
 
-  if (props.lastAnswer === true) {
+  if (props.userAnswer === true) {
     currentAnswerText = 'Correct!';
-  } else if (props.lastAnswer === false) {
+  } else if (props.userAnswer === false) {
     currentAnswerText = 'Wrong!';
   } else {
     currentAnswerText = '';
@@ -48,17 +50,9 @@ export default function Answers(props) {
 Answers.propTypes = {
   answers: PropTypes.array.isRequired,
   stage: PropTypes.number.isRequired,
-  lastAnswer(props, propName, componentName) {
-    const prop = props[propName];
-
-    if (prop !== null && typeof props !== 'string') {
-      return new Error(`Invalid prop '${propName}' supplied to ${componentName}. Validation failed.`);
-    }
-
-    return null;
-  },
+  userAnswer: checkStringNullPropType,
 };
 
 Answers.defaultProps = {
-  lastAnswer: null,
+  userAnswer: null,
 };

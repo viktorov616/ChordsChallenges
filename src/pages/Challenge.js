@@ -4,6 +4,7 @@ import Answers from '../components/Answers';
 import AudioControls from '../components/AudioControls';
 import ChordsList from '../components/ChordsList';
 
+import checkStringNullPropType from '../utility/checkStringNullPropType';
 import getRandomNum from '../utility/getRandomNum';
 
 export default class Challenge extends Component {
@@ -80,7 +81,7 @@ export default class Challenge extends Component {
       <div className="challenge">
         <Answers
           answers={props.challenge.answers}
-          lastAnswer={props.challenge.lastAnswer}
+          userAnswer={props.challenge.userAnswer}
           stage={props.challenge.stage}
         />
         <AudioControls
@@ -107,15 +108,8 @@ Challenge.propTypes = {
     currentChords: PropTypes.array.isRequired,
     currentChordsSounds: PropTypes.array.isRequired,
     stage: PropTypes.number.isRequired,
-    lastAnswer(props, propName, componentName) {
-      const prop = props[propName];
-
-      if (prop !== null && typeof props !== 'string') {
-        return new Error(`Invalid prop '${propName}' supplied to ${componentName}. Validation failed.`);
-      }
-
-      return null;
-    },
+    lastAnswer: checkStringNullPropType,
+    userAnswer: checkStringNullPropType,
   }).isRequired,
   params: PropTypes.shape({
     challengeId: PropTypes.string.isRequired,
