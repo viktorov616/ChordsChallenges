@@ -3,8 +3,18 @@ import React, { PropTypes } from 'react';
 export default function AudioControls(props) {
   return (
     <div className="audio-controls">
-      <button onClick={props.play} className="btn audio-controls__btn">Play</button>
-      <button onClick={props.stop} className="btn audio-controls__btn">Stop</button>
+      <button
+        onClick={props.play}
+        className="btn btn--big audio-controls__btn"
+      >
+        Play
+      </button>
+      <button
+        onClick={props.stop}
+        className="btn btn--big audio-controls__btn"
+      >
+        Stop
+      </button>
     </div>
   );
 }

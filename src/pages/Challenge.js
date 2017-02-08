@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import Answers from '../components/Answers';
 import AudioControls from '../components/AudioControls';
+import ChordsList from '../components/ChordsList';
 
 import getRandomNum from '../utility/getRandomNum';
 
@@ -19,6 +20,7 @@ export default class Challenge extends Component {
     this.computeCurrentChords = this.computeCurrentChords.bind(this);
     this.playChordSound = this.playChordSound.bind(this);
     this.stopChordSound = this.stopChordSound.bind(this);
+    this.handleSetAnswer = this.handleSetAnswer.bind(this);
   }
 
   componentWillMount() {
@@ -67,6 +69,10 @@ export default class Challenge extends Component {
     chord.currentTime = 0;
   }
 
+  handleSetAnswer() {
+    return this;
+  }
+
   render() {
     const props = this.props;
 
@@ -81,6 +87,10 @@ export default class Challenge extends Component {
           play={this.playChordSound}
           stop={this.stopChordSound}
         />
+        <ChordsList
+          chords={props.challenge.challengeChords}
+          handleClick={this.handleSetAnswer}
+        />
       </div>
     );
   }
@@ -93,6 +103,8 @@ Challenge.propTypes = {
   challenges: PropTypes.object.isRequired,
   challenge: PropTypes.shape({
     answers: PropTypes.array.isRequired,
+    challengeChords: PropTypes.array.isRequired,
+    currentChords: PropTypes.array.isRequired,
     currentChordsSounds: PropTypes.array.isRequired,
     stage: PropTypes.number.isRequired,
     lastAnswer(props, propName, componentName) {

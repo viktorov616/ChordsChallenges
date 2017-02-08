@@ -2,7 +2,7 @@
   display: inline-block;
   vertical-align: top;
 
-  width: 120px;
+  min-width: 120px;
 
   margin-right: 10px;
   margin-bottom: 20px;
@@ -28,5 +28,19 @@
     box-shadow: 0 0 10px rgba(196, 164, 49, .8);
 
     color: $primary-color;
+  }
+
+  &--big {
+    min-width: 130px;
+
+    padding: 15px 30px;
+  }
+
+  &--small {
+    min-width: 100px;
+
+    padding: 10px 15px;
+
+    font-size: 18px;
   }
 }
