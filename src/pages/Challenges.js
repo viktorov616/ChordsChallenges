@@ -11,9 +11,9 @@ export default function Challenges(props) {
 }
 
 Challenges.propTypes = {
-  challenges: PropTypes.object,
+  challenges: PropTypes.array,
 };
 
 Challenges.defaultProps = {
-  challenges: {},
+  challenges: [],
 };

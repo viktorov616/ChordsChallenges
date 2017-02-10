@@ -4,17 +4,19 @@ import checkStringNullPropType from '../utility/checkStringNullPropType';
 
 export default function Answers(props) {
   const basicCurrentAnswerClass = 'answers__current-answer';
-  const currentAnswerClass = (props.userAnswer)
-    ? `${basicCurrentAnswerClass} ${basicCurrentAnswerClass}--correct`
-    : `${basicCurrentAnswerClass} ${basicCurrentAnswerClass}--wrong`;
+  const { lastAnswer } = props;
+  let currentAnswerClass;
   let currentAnswerText;
 
-  if (props.userAnswer === true) {
+  if (lastAnswer === true) {
     currentAnswerText = 'Correct!';
-  } else if (props.userAnswer === false) {
+    currentAnswerClass = `${basicCurrentAnswerClass} ${basicCurrentAnswerClass}--correct`;
+  } else if (lastAnswer === false) {
     currentAnswerText = 'Wrong!';
+    currentAnswerClass = `${basicCurrentAnswerClass} ${basicCurrentAnswerClass}--wrong`;
   } else {
     currentAnswerText = '';
+    currentAnswerClass = basicCurrentAnswerClass;
   }
 
   return (
@@ -50,9 +52,9 @@ export default function Answers(props) {
 Answers.propTypes = {
   answers: PropTypes.array.isRequired,
   stage: PropTypes.number.isRequired,
-  userAnswer: checkStringNullPropType,
+  lastAnswer: checkStringNullPropType,
 };
 
 Answers.defaultProps = {
-  userAnswer: null,
+  lastAnswer: null,
 };

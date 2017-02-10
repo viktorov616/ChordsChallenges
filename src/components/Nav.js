@@ -17,6 +17,6 @@ export default function Nav(props) {
 }
 
 Nav.propTypes = {
-  nav: PropTypes.object.isRequired,
+  nav: PropTypes.array.isRequired,
   currentPage: PropTypes.string.isRequired,
 };

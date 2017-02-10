@@ -1,4 +1,11 @@
 .challenge {
   display: flex;
   flex-direction: column;
+
+  &__audio-controls {
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 20px;
+  }
 }

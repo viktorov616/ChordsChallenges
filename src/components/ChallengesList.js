@@ -19,5 +19,5 @@ export default function ChallengesList(props) {
 }
 
 ChallengesList.propTypes = {
-  challenges: PropTypes.object.isRequired,
+  challenges: PropTypes.array.isRequired,
 };
