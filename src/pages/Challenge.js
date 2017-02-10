@@ -14,10 +14,6 @@ export default class Challenge extends Component {
     return chordsSounds;
   }
 
-  static computeNextStage(stage) {
-    return stage + 1;
-  }
-
   constructor(props) {
     super(props);
 
@@ -27,6 +23,7 @@ export default class Challenge extends Component {
     this.playChordSound = this.playChordSound.bind(this);
     this.stopChordSound = this.stopChordSound.bind(this);
     this.handleSetAnswer = this.handleSetAnswer.bind(this);
+    this.handleSetNexStage = this.handleSetNexStage.bind(this);
   }
 
   componentWillMount() {
@@ -39,18 +36,6 @@ export default class Challenge extends Component {
     this.props.setCurrentChords(currentChords);
     this.props.setCurrentChordsSounds(currentChordsSounds);
     this.props.setChallengeType(challengeType);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { answers, stage, lastAnswer } = nextProps.challenge;
-    const lastStage = answers.length - 1;
-    console.count('receive');
-
-    if (lastAnswer && stage !== lastStage) {
-      const nextStage = this.constructor.computeNextStage(stage);
-      this.props.setStage(nextStage);
-      this.props.setLastAnswer(null);
-    }
   }
 
   componentWillUpdate() {
@@ -101,7 +86,7 @@ export default class Challenge extends Component {
   }
 
   handleSetAnswer(e) {
-    const { answers, currentChords, stage, challengeType } = this.props.challenge;
+    const { answers, currentChords, challengeType, stage, lastAnswer } = this.props.challenge;
     const correctAnswer = currentChords[stage];
     const guess = e.target.textContent;
     const userAnswer = answers[stage].value;
@@ -113,14 +98,24 @@ export default class Challenge extends Component {
       if (userAnswer === null) {
         this.props.setUserAnswer(isGuessCorrect, stage);
         this.props.setLastAnswer(isGuessCorrect);
-      } else {
+      } else if (lastAnswer !== true) {
         this.props.setLastAnswer(isGuessCorrect);
       }
     }
   }
 
+  handleSetNexStage() {
+    const nextStage = this.props.challenge.stage + 1;
+    this.props.setStage(nextStage);
+    this.props.setLastAnswer(null);
+  }
+
   render() {
     const props = this.props;
+    const { lastAnswer, stage, answers } = props.challenge;
+    const nextStageBtn = (lastAnswer && stage !== answers.length - 1)
+      ? <Btn clickFunc={this.handleSetNexStage} text={'Next stage'} />
+      : null;
 
     return (
       <div className="challenge">
@@ -132,6 +127,9 @@ export default class Challenge extends Component {
         <div className="challenge__audio-controls">
           <Btn clickFunc={this.playChordSound} text={'Play'} />
           <Btn clickFunc={this.stopChordSound} text={'Stop'} />
+        </div>
+        <div className="challenge__next-stage">
+          { nextStageBtn }
         </div>
         <ChordsList
           chords={props.challenge.challengeChords}
