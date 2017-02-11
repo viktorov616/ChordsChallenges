@@ -1,3 +1,9 @@
+export function resetChallengeStore() {
+  return {
+    type: 'RESET_CHALLENGE_STORE',
+  };
+}
+
 export function setChallengeChords(chords) {
   return {
     type: 'SET_CHALLENGE_CHORDS',
@@ -45,5 +51,11 @@ export function setStage(stage) {
   return {
     type: 'SET_STAGE',
     stage,
+  };
+}
+
+export function toggleRecapPopup() {
+  return {
+    type: 'TOGGLE_RECAP_POPUP',
   };
 }

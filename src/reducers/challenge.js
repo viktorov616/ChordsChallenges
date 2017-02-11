@@ -8,12 +8,15 @@ const defaultState = {
   currentChords: [],
   currentChordsSounds: [],
   stage: 0,
+  showRecapPopup: false,
   lastAnswer: null,
   challengeType: '',
 };
 
 export default function challenge(state = defaultState, action) {
   switch (action.type) {
+    case 'RESET_CHALLENGE_STORE':
+      return defaultState;
     case 'SET_CHALLENGE_CHORDS':
       return Object.assign({}, state, { challengeChords: action.chords });
     case 'SET_CURRENT_CHORDS':
@@ -38,6 +41,8 @@ export default function challenge(state = defaultState, action) {
     }
     case 'SET_STAGE':
       return Object.assign({}, state, { stage: action.stage });
+    case 'TOGGLE_RECAP_POPUP':
+      return Object.assign({}, state, { showRecapPopup: !state.showRecapPopup });
     default:
       return state;
   }

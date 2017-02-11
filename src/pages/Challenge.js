@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import Answers from '../components/Answers';
 import Btn from '../components/Btn';
 import ChordsList from '../components/ChordsList';
+import ChallengeRecapPopup from '../components/ChallengeRecapPopup';
 
 import checkStringNullPropType from '../utility/checkStringNullPropType';
 import getRandomNum from '../utility/getRandomNum';
@@ -21,12 +22,27 @@ export default class Challenge extends Component {
     this.computeChallengeType = this.computeChallengeType.bind(this);
     this.computeCurrentChords = this.computeCurrentChords.bind(this);
     this.playChordSound = this.playChordSound.bind(this);
+    this.setInitialState = this.setInitialState.bind(this);
     this.stopChordSound = this.stopChordSound.bind(this);
+    this.handleResetChallengeStore = this.handleResetChallengeStore.bind(this);
     this.handleSetAnswer = this.handleSetAnswer.bind(this);
     this.handleSetNexStage = this.handleSetNexStage.bind(this);
   }
 
   componentWillMount() {
+    console.count('mount');
+    this.setInitialState();
+  }
+
+  componentWillUpdate() {
+    console.count('update');
+  }
+
+  componentWillUnmount() {
+    this.props.resetChallengeStore();
+  }
+
+  setInitialState() {
     const challengeChords = this.computeChallengeChords();
     const challengeType = this.computeChallengeType();
     const currentChords = this.computeCurrentChords(challengeChords);
@@ -36,10 +52,6 @@ export default class Challenge extends Component {
     this.props.setCurrentChords(currentChords);
     this.props.setCurrentChordsSounds(currentChordsSounds);
     this.props.setChallengeType(challengeType);
-  }
-
-  componentWillUpdate() {
-    console.count('update');
   }
 
   computeChallengeChords() {
@@ -104,6 +116,11 @@ export default class Challenge extends Component {
     }
   }
 
+  handleResetChallengeStore() {
+    this.props.resetChallengeStore();
+    this.setInitialState();
+  }
+
   handleSetNexStage() {
     const nextStage = this.props.challenge.stage + 1;
     this.props.setStage(nextStage);
@@ -112,9 +129,20 @@ export default class Challenge extends Component {
 
   render() {
     const props = this.props;
-    const { lastAnswer, stage, answers } = props.challenge;
+    const { answers, currentChords, lastAnswer, stage } = props.challenge;
     const nextStageBtn = (lastAnswer && stage !== answers.length - 1)
       ? <Btn clickFunc={this.handleSetNexStage} text={'Next stage'} />
+      : null;
+    const recapPopupBtn = (lastAnswer && stage === answers.length - 1)
+      ? <Btn clickFunc={props.toggleRecapPopup} text={'End challenge'} />
+      : null;
+    const recapPopup = (props.challenge.showRecapPopup)
+      ? (<ChallengeRecapPopup
+        answers={answers}
+        currentChords={currentChords}
+        resetChallengeStore={this.handleResetChallengeStore}
+        toggleRecapPopup={props.toggleRecapPopup}
+      />)
       : null;
 
     return (
@@ -128,26 +156,21 @@ export default class Challenge extends Component {
           <Btn clickFunc={this.playChordSound} text={'Play'} />
           <Btn clickFunc={this.stopChordSound} text={'Stop'} />
         </div>
-        <div className="challenge__next-stage">
+        <div className="challenge__stage-controls">
           { nextStageBtn }
+          { recapPopupBtn }
         </div>
         <ChordsList
           chords={props.challenge.challengeChords}
           handleClick={this.handleSetAnswer}
         />
+        { recapPopup }
       </div>
     );
   }
 }
 
 Challenge.propTypes = {
-  setChallengeChords: PropTypes.func,
-  setChallengeType: PropTypes.func,
-  setCurrentChords: PropTypes.func,
-  setCurrentChordsSounds: PropTypes.func,
-  setLastAnswer: PropTypes.func,
-  setUserAnswer: PropTypes.func,
-  setStage: PropTypes.func,
   challenges: PropTypes.array,
   challenge: PropTypes.shape({
     answers: PropTypes.array,
@@ -161,16 +184,18 @@ Challenge.propTypes = {
   params: PropTypes.shape({
     challengeId: PropTypes.string,
   }),
+  resetChallengeStore: PropTypes.func,
+  setChallengeChords: PropTypes.func,
+  setChallengeType: PropTypes.func,
+  setCurrentChords: PropTypes.func,
+  setCurrentChordsSounds: PropTypes.func,
+  setLastAnswer: PropTypes.func,
+  setUserAnswer: PropTypes.func,
+  setStage: PropTypes.func,
+  toggleRecapPopup: PropTypes.func,
 };
 
 Challenge.defaultProps = {
-  setChallengeChords: () => {},
-  setChallengeType: () => {},
-  setCurrentChords: () => {},
-  setCurrentChordsSounds: () => {},
-  setLastAnswer: () => {},
-  setUserAnswer: () => {},
-  setStage: () => {},
   challenges: [],
   challenge: {
     answers: [],
@@ -185,4 +210,13 @@ Challenge.defaultProps = {
   params: {
     challengeId: '',
   },
+  resetChallengeStore: () => {},
+  setChallengeChords: () => {},
+  setChallengeType: () => {},
+  setCurrentChords: () => {},
+  setCurrentChordsSounds: () => {},
+  setLastAnswer: () => {},
+  setUserAnswer: () => {},
+  setStage: () => {},
+  toggleRecapPopup: () => {},
 };
