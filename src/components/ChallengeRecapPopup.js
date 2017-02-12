@@ -32,7 +32,7 @@ export default function ChallengeRecapPopup(props) {
           { props.answers.map((answer, i) => <ChallengeRecapItem
             key={answer.id}
             answer={answer.value}
-            chord={props.currentChords[i]}
+            chords={props.currentChords[i]}
             stage={i}
           />) }
         </ul>

@@ -1,0 +1,11 @@
+.guess-item {
+  list-style: none;
+
+  margin-right: 10px;
+
+  font-size: 26px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}

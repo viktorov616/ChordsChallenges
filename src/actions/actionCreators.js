@@ -1,3 +1,9 @@
+export function clearProgressionGuesses() {
+  return {
+    type: 'CLEAR_PROGRESSION_GUESSES',
+  };
+}
+
 export function resetChallengeStore() {
   return {
     type: 'RESET_CHALLENGE_STORE',
@@ -47,10 +53,31 @@ export function setLastAnswer(answer) {
   };
 }
 
+export function setProgressionGuesses(guess) {
+  return {
+    type: 'SET_PROGRESSION_GUESSES',
+    guess,
+  };
+}
+
+export function setProgressionChordsNumber(number) {
+  return {
+    type: 'SET_PROGRESSION_CHORDS_NUMBER',
+    number,
+  };
+}
+
 export function setStage(stage) {
   return {
     type: 'SET_STAGE',
     stage,
+  };
+}
+
+export function setTimeoutsIds(timeoutsIds) {
+  return {
+    type: 'SET_TIMEOUTS_IDS',
+    timeoutsIds,
   };
 }
 

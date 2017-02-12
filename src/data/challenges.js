@@ -42,12 +42,12 @@ const challenges = [{
   id: '9',
   stage: '3',
   type: 'Single+',
-  chords: ['A', 'D', 'E', 'Am', 'Dm', 'Em', 'C', 'Em', 'G'],
+  chords: ['A', 'D', 'E', 'Am', 'Dm', 'Em', 'C', 'G'],
 }, {
   id: '10',
   stage: '3',
   type: 'Progression+',
-  chords: ['A', 'D', 'E', 'Am', 'Dm', 'Em', 'C', 'Em', 'G'],
+  chords: ['A', 'D', 'E', 'Am', 'Dm', 'Em', 'C', 'G'],
 }, {
   id: '11',
   stage: '4',
@@ -62,12 +62,12 @@ const challenges = [{
   id: '13',
   stage: '4',
   type: 'Single+',
-  chords: ['A', 'D', 'E', 'Am', 'Dm', 'Em', 'C', 'Em', 'G', 'B7', 'C7', 'G7'],
+  chords: ['A', 'D', 'E', 'Am', 'Dm', 'Em', 'C', 'G', 'B7', 'C7', 'G7'],
 }, {
   id: '14',
   stage: '4',
   type: 'Progression+',
-  chords: ['A', 'D', 'E', 'Am', 'Dm', 'Em', 'C', 'Em', 'G', 'B7', 'C7', 'G7'],
+  chords: ['A', 'D', 'E', 'Am', 'Dm', 'Em', 'C', 'G', 'B7', 'C7', 'G7'],
 }];
 
 export default challenges;

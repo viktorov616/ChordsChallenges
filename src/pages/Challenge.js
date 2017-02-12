@@ -4,13 +4,21 @@ import Answers from '../components/Answers';
 import Btn from '../components/Btn';
 import ChordsList from '../components/ChordsList';
 import ChallengeRecapPopup from '../components/ChallengeRecapPopup';
+import GuessList from '../components/GuessList';
 
 import checkStringNullPropType from '../utility/checkStringNullPropType';
 import getRandomNum from '../utility/getRandomNum';
 
 export default class Challenge extends Component {
+  static clearTimeouts(timeouts) {
+    timeouts.forEach(timeout => clearTimeout(timeout));
+  }
+
   static computeCurrentChordsSounds(chords) {
-    const chordsSounds = chords.map(chord => new Audio(require(`../sounds/${chord}.wav`)));
+    const chordsSounds = chords.reduce((result, chord) => Object.assign(
+      {}, result, { [chord]: new Audio(require(`../sounds/${chord}.wav`)) },
+    ), {});
+
 
     return chordsSounds;
   }
@@ -18,6 +26,7 @@ export default class Challenge extends Component {
   constructor(props) {
     super(props);
 
+    this.computeProgressionChordsNumber = this.computeProgressionChordsNumber.bind(this);
     this.computeChallengeChords = this.computeChallengeChords.bind(this);
     this.computeChallengeType = this.computeChallengeType.bind(this);
     this.computeCurrentChords = this.computeCurrentChords.bind(this);
@@ -43,15 +52,25 @@ export default class Challenge extends Component {
   }
 
   setInitialState() {
+    const progressionChordsNumber = this.computeProgressionChordsNumber();
     const challengeChords = this.computeChallengeChords();
     const challengeType = this.computeChallengeType();
-    const currentChords = this.computeCurrentChords(challengeChords);
-    const currentChordsSounds = this.constructor.computeCurrentChordsSounds(currentChords);
+    const currentChords = this.computeCurrentChords(
+      challengeChords, challengeType, progressionChordsNumber,
+    );
+    const currentChordsSounds = this.constructor.computeCurrentChordsSounds(challengeChords);
 
     this.props.setChallengeChords(challengeChords);
     this.props.setCurrentChords(currentChords);
     this.props.setCurrentChordsSounds(currentChordsSounds);
     this.props.setChallengeType(challengeType);
+  }
+
+  computeProgressionChordsNumber() {
+    const i = this.props.params.challengeId - 1;
+    const progressionChallengeChords = this.props.challenges[i].progressionChordsNumber;
+
+    return progressionChallengeChords;
   }
 
   computeChallengeChords() {
@@ -68,51 +87,114 @@ export default class Challenge extends Component {
     return challengeType;
   }
 
-  computeCurrentChords(chords) {
+  computeCurrentChords(chords, challengeType, progressionChordsNumber = 4) {
     const max = chords.length - 1;
     const chordsNumber = this.props.challenge.answers.length;
-    const currentChords = new Array(chordsNumber).fill().map(() => {
-      const n = getRandomNum(0, max);
-      const chord = chords[n];
+    let currentChords;
 
-      return chord;
-    });
+    if (challengeType === 'Single') {
+      currentChords = new Array(chordsNumber).fill().map(() => {
+        const n = getRandomNum(0, max);
+        const chord = [chords[n]];
+
+        return chord;
+      });
+    } else {
+      currentChords = new Array(chordsNumber).fill().map(() => {
+        const progressionChords = new Array(progressionChordsNumber).fill().map(() => {
+          const n = getRandomNum(0, max);
+          const chord = chords[n];
+
+          return chord;
+        });
+
+        return progressionChords;
+      });
+    }
 
     return currentChords;
   }
 
   playChordSound() {
-    const { stage } = this.props.challenge;
-    const chord = this.props.challenge.currentChordsSounds[stage];
+    const { stage, challengeType, currentChordsSounds, currentChords } = this.props.challenge;
 
-    chord.currentTime = 0;
-    chord.play();
+    this.stopChordSound();
+
+    if (challengeType === 'Single') {
+      const chord = currentChords[stage][0];
+      const chordSound = currentChordsSounds[chord];
+
+      chordSound.play();
+    } else {
+      const timeoutsIds = [];
+
+      currentChords[stage].forEach((chord, i) => {
+        const chordsSounds = currentChordsSounds[chord];
+
+        timeoutsIds[i] = setTimeout(() => {
+          chordsSounds.currentTime = 0;
+          chordsSounds.play();
+        }, i * 1000);
+      });
+
+      this.props.setTimeoutsIds(timeoutsIds);
+    }
   }
 
   stopChordSound() {
-    const { stage } = this.props.challenge;
-    const chord = this.props.challenge.currentChordsSounds[stage];
+    const {
+      challengeType, currentChordsSounds, currentChords, stage, timeoutsIds,
+    } = this.props.challenge;
 
-    chord.pause();
-    chord.currentTime = 0;
+    if (challengeType === 'Single') {
+      const chord = currentChords[stage][0];
+      const chordSound = currentChordsSounds[chord];
+
+      chordSound.pause();
+      chordSound.currentTime = 0;
+    } else {
+      this.constructor.clearTimeouts(timeoutsIds);
+
+      currentChords[stage].forEach((chord) => {
+        const chordSound = currentChordsSounds[chord];
+        chordSound.pause();
+        chordSound.currentTime = 0;
+      });
+    }
   }
 
   handleSetAnswer(e) {
-    const { answers, currentChords, challengeType, stage, lastAnswer } = this.props.challenge;
+    const {
+      answers, currentChords, challengeType, lastAnswer, progressionGuesses,
+      progressionChordsNumber, stage,
+    } = this.props.challenge;
     const correctAnswer = currentChords[stage];
     const guess = e.target.textContent;
     const userAnswer = answers[stage].value;
     let isGuessCorrect;
+    let progressionGuessesUpdated;
 
     if (/Single/.test(challengeType)) {
-      isGuessCorrect = guess === correctAnswer;
+      isGuessCorrect = guess === correctAnswer[0];
+    } else {
+      if (lastAnswer === true) return;
+      if (progressionGuesses.length !== progressionChordsNumber - 1) {
+        this.props.setProgressionGuesses(guess);
 
-      if (userAnswer === null) {
-        this.props.setUserAnswer(isGuessCorrect, stage);
-        this.props.setLastAnswer(isGuessCorrect);
-      } else if (lastAnswer !== true) {
-        this.props.setLastAnswer(isGuessCorrect);
+        return;
       }
+      progressionGuessesUpdated = [...progressionGuesses, guess];
+      isGuessCorrect = progressionGuessesUpdated.every((item, i) =>
+        item === currentChords[stage][i]);
+
+      this.props.clearProgressionGuesses();
+    }
+
+    if (userAnswer === null) {
+      this.props.setUserAnswer(isGuessCorrect, stage);
+      this.props.setLastAnswer(isGuessCorrect);
+    } else if (lastAnswer !== true) {
+      this.props.setLastAnswer(isGuessCorrect);
     }
   }
 
@@ -152,6 +234,7 @@ export default class Challenge extends Component {
           lastAnswer={props.challenge.lastAnswer}
           stage={props.challenge.stage}
         />
+        <GuessList guesses={props.challenge.progressionGuesses} />
         <div className="challenge__audio-controls">
           <Btn clickFunc={this.playChordSound} text={'Play'} />
           <Btn clickFunc={this.stopChordSound} text={'Stop'} />
@@ -177,21 +260,28 @@ Challenge.propTypes = {
     challengeChords: PropTypes.array,
     challengeType: PropTypes.string,
     currentChords: PropTypes.array,
-    currentChordsSounds: PropTypes.array,
-    stage: PropTypes.number,
+    currentChordsSounds: PropTypes.object,
     lastAnswer: checkStringNullPropType,
+    progressionGuesses: PropTypes.array,
+    progressionChordsNumber: PropTypes.number,
+    stage: PropTypes.number,
+    timeoutsIds: PropTypes.array,
   }),
+  clearProgressionGuesses: PropTypes.func,
   params: PropTypes.shape({
     challengeId: PropTypes.string,
   }),
   resetChallengeStore: PropTypes.func,
   setChallengeChords: PropTypes.func,
   setChallengeType: PropTypes.func,
-  setCurrentChords: PropTypes.func,
   setCurrentChordsSounds: PropTypes.func,
+  setCurrentChords: PropTypes.func,
   setLastAnswer: PropTypes.func,
-  setUserAnswer: PropTypes.func,
+  setProgressionGuesses: PropTypes.func,
+  setProgressionChordsNumber: PropTypes.func,
   setStage: PropTypes.func,
+  setTimeoutsIds: PropTypes.func,
+  setUserAnswer: PropTypes.func,
   toggleRecapPopup: PropTypes.func,
 };
 
@@ -202,21 +292,27 @@ Challenge.defaultProps = {
     challengeChords: [],
     challengeType: '',
     currentChords: [],
-    currentChordsSounds: [],
-    stage: 0,
+    currentChordsSounds: {},
     lastAnswer: null,
-    userAnswer: null,
+    progressionGuesses: [],
+    progressionChordsNumber: 4,
+    stage: 0,
+    timeoutsIds: [],
   },
+  clearProgressionGuesses: () => {},
   params: {
     challengeId: '',
   },
   resetChallengeStore: () => {},
   setChallengeChords: () => {},
   setChallengeType: () => {},
-  setCurrentChords: () => {},
   setCurrentChordsSounds: () => {},
+  setCurrentChords: () => {},
   setLastAnswer: () => {},
-  setUserAnswer: () => {},
+  setProgressionGuesses: () => {},
+  setProgressionChordsNumber: () => {},
   setStage: () => {},
+  setTimeoutsIds: () => {},
+  setUserAnswer: () => {},
   toggleRecapPopup: () => {},
 };

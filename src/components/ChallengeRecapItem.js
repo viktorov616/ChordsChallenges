@@ -9,7 +9,7 @@ export default function ChallengeRecapItem(props) {
   return (
     <li className="challenge-recap-item">
       <span className="challenge-recap-item__stage">{ props.stage + 1 }</span>
-      <span className="challenge-recap-item__chord">{ props.chord }</span>
+      <span className="challenge-recap-item__chord">{ props.chords[0] }</span>
       <span className={answerClass}>{ answerText }</span>
     </li>
   );
@@ -17,6 +17,6 @@ export default function ChallengeRecapItem(props) {
 
 ChallengeRecapItem.propTypes = {
   answer: PropTypes.bool.isRequired,
-  chord: PropTypes.string.isRequired,
+  chords: PropTypes.array.isRequired,
   stage: PropTypes.number.isRequired,
 };
