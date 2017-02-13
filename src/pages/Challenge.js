@@ -47,6 +47,15 @@ export default class Challenge extends Component {
     console.count('update');
   }
 
+  componentDidUpdate(prevProps) {
+    const prevStage = prevProps.challenge.stage;
+    const currentStage = this.props.challenge.stage;
+
+    if (prevStage !== currentStage) {
+      this.playChordSound();
+    }
+  }
+
   componentWillUnmount() {
     this.props.resetChallengeStore();
   }
