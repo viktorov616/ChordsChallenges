@@ -15,6 +15,7 @@ export default function ChallengeRecapPopup(props) {
   }
 
   const accuracy = computeAccuracy(props.answers);
+  const chordsHeader = (props.type === 'Single') ? 'Chord' : 'Chords';
 
   return (
     <div className="challenge-recap-popup">
@@ -26,7 +27,7 @@ export default function ChallengeRecapPopup(props) {
         <ul className="challenge-recap-popup__answers">
           <li className="challenge-recap-popup__item">
             <span className="challenge-recap-popup__stage">Stage</span>
-            <span className="challenge-recap-popup__chord">Chord</span>
+            <span className="challenge-recap-popup__chords">{ chordsHeader }</span>
             <span className="challenge-recap-popup__answer">Answer</span>
           </li>
           { props.answers.map((answer, i) => <ChallengeRecapItem
@@ -57,4 +58,5 @@ ChallengeRecapPopup.propTypes = {
   currentChords: PropTypes.array.isRequired,
   resetChallengeStore: PropTypes.func.isRequired,
   toggleRecapPopup: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
 };

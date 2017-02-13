@@ -12,18 +12,18 @@
     width: 20%;
   }
 
-  &__chord {
+  &__chords {
     display: inline-block;
     vertical-align: top;
     
-    width: 40%;
+    width: 50%;
   }
 
   &__answer {
     display: inline-block;
     vertical-align: top;
     
-    width: 40%;
+    width: 30%;
 
     &--correct {
       color: #008000;
