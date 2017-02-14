@@ -6,13 +6,14 @@ const defaultState = {
   answers,
   challengeChords: [],
   challengeType: '',
+  chordsSounds: {},
   currentChords: [],
-  currentChordsSounds: {},
   lastAnswer: null,
   progressionGuesses: [],
   progressionChordsNumber: 4,
-  stage: 0,
+  showCluePopup: false,
   showRecapPopup: false,
+  stage: 0,
   timeoutsIds: [],
 };
 
@@ -24,10 +25,10 @@ export default function challenge(state = defaultState, action) {
       return defaultState;
     case 'SET_CHALLENGE_CHORDS':
       return Object.assign({}, state, { challengeChords: action.chords });
-    case 'SET_CURRENT_CHORDS_SOUNDS':
-      return Object.assign({}, state, { currentChordsSounds: action.sounds });
     case 'SET_CHALLENGE_TYPE':
       return Object.assign({}, state, { challengeType: action.challengeType });
+    case 'SET_CHORDS_SOUNDS':
+      return Object.assign({}, state, { chordsSounds: action.sounds });
     case 'SET_CURRENT_CHORDS':
       return Object.assign({}, state, { currentChords: action.chords });
     case 'SET_LAST_ANSWER':
@@ -54,7 +55,8 @@ export default function challenge(state = defaultState, action) {
         ],
       });
     }
-
+    case 'TOGGLE_CLUE_POPUP':
+      return Object.assign({}, state, { showCluePopup: !state.showCluePopup });
     case 'TOGGLE_RECAP_POPUP':
       return Object.assign({}, state, { showRecapPopup: !state.showRecapPopup });
     default:

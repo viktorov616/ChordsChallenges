@@ -4,6 +4,7 @@ import Answers from '../components/Answers';
 import Btn from '../components/Btn';
 import ChordsList from '../components/ChordsList';
 import ChallengeRecapPopup from '../components/ChallengeRecapPopup';
+import CluePopup from '../components/CluePopup';
 import GuessList from '../components/GuessList';
 
 import checkStringNullPropType from '../utility/checkStringNullPropType';
@@ -14,7 +15,7 @@ export default class Challenge extends Component {
     timeouts.forEach(timeout => clearTimeout(timeout));
   }
 
-  static computeCurrentChordsSounds(chords) {
+  static computechordsSounds(chords) {
     const chordsSounds = chords.reduce((result, chord) => Object.assign(
       {}, result, { [chord]: new Audio(require(`../sounds/${chord}.wav`)) },
     ), {});
@@ -33,6 +34,7 @@ export default class Challenge extends Component {
     this.playChordSound = this.playChordSound.bind(this);
     this.setInitialState = this.setInitialState.bind(this);
     this.stopChordSound = this.stopChordSound.bind(this);
+    this.handlePlayChordSound = this.handlePlayChordSound.bind(this);
     this.handleResetChallengeStore = this.handleResetChallengeStore.bind(this);
     this.handleSetAnswer = this.handleSetAnswer.bind(this);
     this.handleSetNexStage = this.handleSetNexStage.bind(this);
@@ -52,7 +54,7 @@ export default class Challenge extends Component {
     const currentStage = this.props.challenge.stage;
 
     if (prevStage !== currentStage) {
-      this.playChordSound();
+      this.handlePlayChordSound();
     }
   }
 
@@ -67,11 +69,11 @@ export default class Challenge extends Component {
     const currentChords = this.computeCurrentChords(
       challengeChords, challengeType, progressionChordsNumber,
     );
-    const currentChordsSounds = this.constructor.computeCurrentChordsSounds(challengeChords);
+    const chordsSounds = this.constructor.computechordsSounds(challengeChords);
 
     this.props.setChallengeChords(challengeChords);
     this.props.setCurrentChords(currentChords);
-    this.props.setCurrentChordsSounds(currentChordsSounds);
+    this.props.setChordsSounds(chordsSounds);
     this.props.setChallengeType(challengeType);
   }
 
@@ -124,25 +126,21 @@ export default class Challenge extends Component {
     return currentChords;
   }
 
-  playChordSound() {
-    const { stage, challengeType, currentChordsSounds, currentChords } = this.props.challenge;
+  handlePlayChordSound() {
+    const { stage, challengeType, currentChords } = this.props.challenge;
 
     this.stopChordSound();
 
     if (challengeType === 'Single') {
       const chord = currentChords[stage][0];
-      const chordSound = currentChordsSounds[chord];
 
-      chordSound.play();
+      this.playChordSound(chord);
     } else {
       const timeoutsIds = [];
 
       currentChords[stage].forEach((chord, i) => {
-        const chordsSounds = currentChordsSounds[chord];
-
         timeoutsIds[i] = setTimeout(() => {
-          chordsSounds.currentTime = 0;
-          chordsSounds.play();
+          this.playChordSound(chord);
         }, i * 1000);
       });
 
@@ -150,14 +148,22 @@ export default class Challenge extends Component {
     }
   }
 
+  playChordSound(chord) {
+    const { chordsSounds } = this.props.challenge;
+    const chordSound = chordsSounds[chord];
+
+    chordSound.currentTime = 0;
+    chordSound.play();
+  }
+
   stopChordSound() {
     const {
-      challengeType, currentChordsSounds, currentChords, stage, timeoutsIds,
+      challengeType, chordsSounds, currentChords, stage, timeoutsIds,
     } = this.props.challenge;
 
     if (challengeType === 'Single') {
       const chord = currentChords[stage][0];
-      const chordSound = currentChordsSounds[chord];
+      const chordSound = chordsSounds[chord];
 
       chordSound.pause();
       chordSound.currentTime = 0;
@@ -165,7 +171,7 @@ export default class Challenge extends Component {
       this.constructor.clearTimeouts(timeoutsIds);
 
       currentChords[stage].forEach((chord) => {
-        const chordSound = currentChordsSounds[chord];
+        const chordSound = chordsSounds[chord];
         chordSound.pause();
         chordSound.currentTime = 0;
       });
@@ -220,14 +226,23 @@ export default class Challenge extends Component {
 
   render() {
     const props = this.props;
-    const { answers, currentChords, lastAnswer, stage } = props.challenge;
+    const {
+      answers, currentChords, lastAnswer, showCluePopup, showRecapPopup, stage,
+    } = props.challenge;
+    const cluePopup = (showCluePopup)
+      ? (<CluePopup
+        chords={props.challenge.challengeChords}
+        playChordSound={this.playChordSound}
+        toggleCluePopup={props.toggleCluePopup}
+      />)
+      : null;
     const nextStageBtn = (lastAnswer && stage !== answers.length - 1)
-      ? <Btn clickFunc={this.handleSetNexStage} text={'Next stage'} />
+      ? <Btn handleClick={this.handleSetNexStage} text={'Next stage'} />
       : null;
     const recapPopupBtn = (lastAnswer && stage === answers.length - 1)
-      ? <Btn clickFunc={props.toggleRecapPopup} text={'End challenge'} />
+      ? <Btn handleClick={props.toggleRecapPopup} text={'End challenge'} />
       : null;
-    const recapPopup = (props.challenge.showRecapPopup)
+    const recapPopup = (showRecapPopup)
       ? (<ChallengeRecapPopup
         answers={answers}
         currentChords={currentChords}
@@ -239,24 +254,31 @@ export default class Challenge extends Component {
 
     return (
       <div className="challenge">
-        <Answers
-          answers={props.challenge.answers}
-          lastAnswer={props.challenge.lastAnswer}
-          stage={props.challenge.stage}
-        />
-        <GuessList guesses={props.challenge.progressionGuesses} />
-        <div className="challenge__audio-controls">
-          <Btn clickFunc={this.playChordSound} text={'Play'} />
-          <Btn clickFunc={this.stopChordSound} text={'Stop'} />
+        <div className="challenge__controls" />
+        <div className="challenge__content">
+          <Answers
+            answers={props.challenge.answers}
+            lastAnswer={props.challenge.lastAnswer}
+            stage={props.challenge.stage}
+          />
+          <GuessList guesses={props.challenge.progressionGuesses} />
+          <div className="challenge__audio-controls">
+            <Btn handleClick={this.handlePlayChordSound} text={'Play'} />
+            <Btn handleClick={this.stopChordSound} text={'Stop'} />
+          </div>
+          <div className="challenge__stage-controls">
+            { nextStageBtn }
+            { recapPopupBtn }
+          </div>
+          <ChordsList
+            chords={props.challenge.challengeChords}
+            handleClick={this.handleSetAnswer}
+          />
         </div>
-        <div className="challenge__stage-controls">
-          { nextStageBtn }
-          { recapPopupBtn }
+        <div className="challenge__clue-popup-control">
+          <Btn handleClick={this.props.toggleCluePopup} text={'Clue mode'} />
         </div>
-        <ChordsList
-          chords={props.challenge.challengeChords}
-          handleClick={this.handleSetAnswer}
-        />
+        { cluePopup }
         { recapPopup }
       </div>
     );
@@ -270,10 +292,12 @@ Challenge.propTypes = {
     challengeChords: PropTypes.array,
     challengeType: PropTypes.string,
     currentChords: PropTypes.array,
-    currentChordsSounds: PropTypes.object,
+    chordsSounds: PropTypes.object,
     lastAnswer: checkStringNullPropType,
     progressionGuesses: PropTypes.array,
     progressionChordsNumber: PropTypes.number,
+    showCluePopup: PropTypes.bool,
+    showRecapPopup: PropTypes.bool,
     stage: PropTypes.number,
     timeoutsIds: PropTypes.array,
   }),
@@ -284,7 +308,7 @@ Challenge.propTypes = {
   resetChallengeStore: PropTypes.func,
   setChallengeChords: PropTypes.func,
   setChallengeType: PropTypes.func,
-  setCurrentChordsSounds: PropTypes.func,
+  setChordsSounds: PropTypes.func,
   setCurrentChords: PropTypes.func,
   setLastAnswer: PropTypes.func,
   setProgressionGuesses: PropTypes.func,
@@ -292,6 +316,7 @@ Challenge.propTypes = {
   setStage: PropTypes.func,
   setTimeoutsIds: PropTypes.func,
   setUserAnswer: PropTypes.func,
+  toggleCluePopup: PropTypes.func,
   toggleRecapPopup: PropTypes.func,
 };
 
@@ -302,10 +327,12 @@ Challenge.defaultProps = {
     challengeChords: [],
     challengeType: '',
     currentChords: [],
-    currentChordsSounds: {},
+    chordsSounds: {},
     lastAnswer: null,
     progressionGuesses: [],
     progressionChordsNumber: 4,
+    showCluePopup: false,
+    showREcapPopup: false,
     stage: 0,
     timeoutsIds: [],
   },
@@ -316,7 +343,7 @@ Challenge.defaultProps = {
   resetChallengeStore: () => {},
   setChallengeChords: () => {},
   setChallengeType: () => {},
-  setCurrentChordsSounds: () => {},
+  setChordsSounds: () => {},
   setCurrentChords: () => {},
   setLastAnswer: () => {},
   setProgressionGuesses: () => {},
@@ -324,5 +351,6 @@ Challenge.defaultProps = {
   setStage: () => {},
   setTimeoutsIds: () => {},
   setUserAnswer: () => {},
+  toggleCluePopup: () => {},
   toggleRecapPopup: () => {},
 };

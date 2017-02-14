@@ -24,9 +24,9 @@ export function setCurrentChords(chords) {
   };
 }
 
-export function setCurrentChordsSounds(sounds) {
+export function setChordsSounds(sounds) {
   return {
-    type: 'SET_CURRENT_CHORDS_SOUNDS',
+    type: 'SET_CHORDS_SOUNDS',
     sounds,
   };
 }
@@ -78,6 +78,12 @@ export function setTimeoutsIds(timeoutsIds) {
   return {
     type: 'SET_TIMEOUTS_IDS',
     timeoutsIds,
+  };
+}
+
+export function toggleCluePopup() {
+  return {
+    type: 'TOGGLE_CLUE_POPUP',
   };
 }
 

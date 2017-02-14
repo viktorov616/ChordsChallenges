@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 export default function Btn(props) {
   return (
     <button
-      onClick={props.clickFunc}
+      onClick={props.handleClick}
       className="btn"
     >
       { props.text }
@@ -12,6 +12,6 @@ export default function Btn(props) {
 }
 
 Btn.propTypes = {
-  clickFunc: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
 };
