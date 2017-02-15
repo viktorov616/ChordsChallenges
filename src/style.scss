@@ -2,10 +2,12 @@
 @import 'styles/scaffolding.scss';
 @import 'styles/variables.scss';
 
+@import 'pages/Challenges.scss';
 @import 'pages/Challenge.scss';
 @import 'pages/Layout.scss';
 
 @import 'components/Answers.scss';
+@import 'components/BtnUp.scss';
 @import 'components/Btn.scss';
 @import 'components/CluePopup.scss';
 @import 'components/ChallengesList.scss';

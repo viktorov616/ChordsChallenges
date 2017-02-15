@@ -80,21 +80,21 @@ export default class Challenge extends Component {
 
   computeProgressionChordsNumber() {
     const i = this.props.params.challengeId - 1;
-    const progressionChallengeChords = this.props.challenges[i].progressionChordsNumber;
+    const progressionChallengeChords = this.props.challenges.data[i].progressionChordsNumber;
 
     return progressionChallengeChords;
   }
 
   computeChallengeChords() {
     const i = this.props.params.challengeId - 1;
-    const challengeChords = this.props.challenges[i].chords;
+    const challengeChords = this.props.challenges.data[i].chords;
 
     return challengeChords;
   }
 
   computeChallengeType() {
     const i = this.props.params.challengeId - 1;
-    const challengeType = this.props.challenges[i].type;
+    const challengeType = this.props.challenges.data[i].type;
 
     return challengeType;
   }
@@ -228,9 +228,9 @@ export default class Challenge extends Component {
   render() {
     const props = this.props;
     const {
-      answers, challengeType, currentChords, lastAnswer, showCluePopup, showRecapPopup, stage,
+      answers, challengeType, currentChords, lastAnswer, displayCluePopup, displayRecapPopup, stage,
     } = props.challenge;
-    const cluePopup = (showCluePopup)
+    const cluePopup = (displayCluePopup)
       ? (<CluePopup
         chords={props.challenge.challengeChords}
         playChordSound={this.playChordSound}
@@ -243,12 +243,13 @@ export default class Challenge extends Component {
     const recapPopupBtn = (lastAnswer && stage === answers.length - 1)
       ? <Btn handleClick={props.toggleRecapPopup} text={'End challenge'} />
       : null;
-    const recapPopup = (showRecapPopup)
+    const recapPopup = (displayRecapPopup)
       ? (<ChallengeRecapPopup
         answers={answers}
         currentChords={currentChords}
         resetChallengeStore={this.handleResetChallengeStore}
         toggleRecapPopup={props.toggleRecapPopup}
+        type={props.challengeType}
       />)
       : null;
     const clearBtn = (/Progression/.test(challengeType))
@@ -310,7 +311,9 @@ export default class Challenge extends Component {
 }
 
 Challenge.propTypes = {
-  challenges: PropTypes.array,
+  challenges: PropTypes.shape({
+    data: PropTypes.array,
+  }),
   challenge: PropTypes.shape({
     answers: PropTypes.array,
     challengeChords: PropTypes.array,
@@ -320,8 +323,8 @@ Challenge.propTypes = {
     lastAnswer: checkStringNullPropType,
     progressionGuesses: PropTypes.array,
     progressionChordsNumber: PropTypes.number,
-    showCluePopup: PropTypes.bool,
-    showRecapPopup: PropTypes.bool,
+    displayCluePopup: PropTypes.bool,
+    displayRecapPopup: PropTypes.bool,
     stage: PropTypes.number,
     timeoutsIds: PropTypes.array,
   }),
@@ -346,7 +349,9 @@ Challenge.propTypes = {
 };
 
 Challenge.defaultProps = {
-  challenges: [],
+  challenges: {
+    data: [],
+  },
   challenge: {
     answers: [],
     challengeChords: [],
@@ -356,8 +361,8 @@ Challenge.defaultProps = {
     lastAnswer: null,
     progressionGuesses: [],
     progressionChordsNumber: 4,
-    showCluePopup: false,
-    showREcapPopup: false,
+    displayCluePopup: false,
+    displayREcapPopup: false,
     stage: 0,
     timeoutsIds: [],
   },

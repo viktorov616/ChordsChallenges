@@ -11,8 +11,8 @@ const defaultState = {
   lastAnswer: null,
   progressionGuesses: [],
   progressionChordsNumber: 4,
-  showCluePopup: false,
-  showRecapPopup: false,
+  displayCluePopup: false,
+  displayRecapPopup: false,
   stage: 0,
   timeoutsIds: [],
 };
@@ -60,9 +60,9 @@ export default function challenge(state = defaultState, action) {
       });
     }
     case 'TOGGLE_CLUE_POPUP':
-      return Object.assign({}, state, { showCluePopup: !state.showCluePopup });
+      return Object.assign({}, state, { displayCluePopup: !state.showCluePopup });
     case 'TOGGLE_RECAP_POPUP':
-      return Object.assign({}, state, { showRecapPopup: !state.showRecapPopup });
+      return Object.assign({}, state, { displayRecapPopup: !state.showRecapPopup });
     default:
       return state;
   }

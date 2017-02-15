@@ -87,6 +87,18 @@ export function setTimeoutsIds(timeoutsIds) {
   };
 }
 
+export function showBtnUp() {
+  return {
+    type: 'SHOW_BTN_UP',
+  };
+}
+
+export function hideBtnUp() {
+  return {
+    type: 'HIDE_BTN_UP',
+  };
+}
+
 export function toggleCluePopup() {
   return {
     type: 'TOGGLE_CLUE_POPUP',
