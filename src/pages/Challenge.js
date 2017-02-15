@@ -60,6 +60,7 @@ export default class Challenge extends Component {
 
   componentWillUnmount() {
     this.props.resetChallengeStore();
+    this.stopChordSound();
   }
 
   setInitialState() {
