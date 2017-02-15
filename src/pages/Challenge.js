@@ -15,7 +15,7 @@ export default class Challenge extends Component {
     timeouts.forEach(timeout => clearTimeout(timeout));
   }
 
-  static computechordsSounds(chords) {
+  static computeChordsSounds(chords) {
     const chordsSounds = chords.reduce((result, chord) => Object.assign(
       {}, result, { [chord]: new Audio(require(`../sounds/${chord}.wav`)) },
     ), {});
@@ -70,7 +70,7 @@ export default class Challenge extends Component {
     const currentChords = this.computeCurrentChords(
       challengeChords, challengeType, progressionChordsNumber,
     );
-    const chordsSounds = this.constructor.computechordsSounds(challengeChords);
+    const chordsSounds = this.constructor.computeChordsSounds(challengeChords);
 
     this.props.setChallengeChords(challengeChords);
     this.props.setCurrentChords(currentChords);
@@ -104,7 +104,7 @@ export default class Challenge extends Component {
     const chordsNumber = this.props.challenge.answers.length;
     let currentChords;
 
-    if (challengeType === 'Single') {
+    if (/Single/.test(challengeType)) {
       currentChords = new Array(chordsNumber).fill().map(() => {
         const n = getRandomNum(0, max);
         const chord = [chords[n]];
@@ -132,7 +132,7 @@ export default class Challenge extends Component {
 
     this.stopChordSound();
 
-    if (challengeType === 'Single') {
+    if (/Single/.test(challengeType)) {
       const chord = currentChords[stage][0];
 
       this.playChordSound(chord);
@@ -162,7 +162,7 @@ export default class Challenge extends Component {
       challengeType, chordsSounds, currentChords, stage, timeoutsIds,
     } = this.props.challenge;
 
-    if (challengeType === 'Single') {
+    if (/Single/.test(challengeType)) {
       const chord = currentChords[stage][0];
       const chordSound = chordsSounds[chord];
 
@@ -249,17 +249,16 @@ export default class Challenge extends Component {
         currentChords={currentChords}
         resetChallengeStore={this.handleResetChallengeStore}
         toggleRecapPopup={props.toggleRecapPopup}
-        type={props.challenge.challengeType}
       />)
       : null;
-    const clearBtn = (challengeType === 'Progression')
+    const clearBtn = (/Progression/.test(challengeType))
       ? (<Btn
         handleClick={this.props.clearProgressionGuesses}
         mods={['no-margin-right']}
         text={'Clear'}
       />)
       : null;
-    const removeLastBtn = (challengeType === 'Progression')
+    const removeLastBtn = (/Progression/.test(challengeType))
       ? (<Btn
         handleClick={this.props.removeLastProgressionGuess}
         mods={['no-margin-right']}
