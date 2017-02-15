@@ -1,14 +1,15 @@
 import React, { PropTypes } from 'react';
 
+import Btn from './Btn';
+
 export default function ChordsItem(props) {
   return (
     <li className="chords-item">
-      <button
-        onClick={props.handleClick}
-        className="btn btn--small chords-item__btn"
-      >
-        { props.chord }
-      </button>
+      <Btn
+        handleClick={props.handleClick}
+        mods={['small']}
+        text={props.chord}
+      />
     </li>
   );
 }

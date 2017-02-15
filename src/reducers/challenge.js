@@ -21,6 +21,10 @@ export default function challenge(state = defaultState, action) {
   switch (action.type) {
     case 'CLEAR_PROGRESSION_GUESSES':
       return Object.assign({}, state, { progressionGuesses: [] });
+    case 'REMOVE_LAST_PROGRESSION_GUESS':
+      return Object.assign({}, state, {
+        progressionGuesses: state.progressionGuesses.slice(0, -1),
+      });
     case 'RESET_CHALLENGE_STORE':
       return defaultState;
     case 'SET_CHALLENGE_CHORDS':

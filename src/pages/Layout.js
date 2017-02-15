@@ -8,7 +8,7 @@ export default function Layout(props) {
     linkName: 'Challenges',
   }];
   return (
-    <div>
+    <div className="layout">
       <Nav
         nav={nav}
         currentPage={props.location.pathname}

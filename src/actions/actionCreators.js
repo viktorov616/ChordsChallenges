@@ -4,6 +4,12 @@ export function clearProgressionGuesses() {
   };
 }
 
+export function removeLastProgressionGuess() {
+  return {
+    type: 'REMOVE_LAST_PROGRESSION_GUESS',
+  };
+}
+
 export function resetChallengeStore() {
   return {
     type: 'RESET_CHALLENGE_STORE',

@@ -228,7 +228,7 @@ export default class Challenge extends Component {
   render() {
     const props = this.props;
     const {
-      answers, currentChords, lastAnswer, showCluePopup, showRecapPopup, stage,
+      answers, challengeType, currentChords, lastAnswer, showCluePopup, showRecapPopup, stage,
     } = props.challenge;
     const cluePopup = (showCluePopup)
       ? (<CluePopup
@@ -252,10 +252,37 @@ export default class Challenge extends Component {
         type={props.challenge.challengeType}
       />)
       : null;
+    const clearBtn = (challengeType === 'Progression')
+      ? (<Btn
+        handleClick={this.props.clearProgressionGuesses}
+        mods={['no-margin-right']}
+        text={'Clear'}
+      />)
+      : null;
+    const removeLastBtn = (challengeType === 'Progression')
+      ? (<Btn
+        handleClick={this.props.removeLastProgressionGuess}
+        mods={['no-margin-right']}
+        text={'Remove last'}
+      />)
+      : null;
 
     return (
       <div className="challenge">
-        <div className="challenge__controls" />
+        <div className="challenge__controls">
+          <Btn
+            handleClick={this.props.toggleCluePopup}
+            mods={['no-margin-right']}
+            text={'Clue mode'}
+          />
+          <Btn
+            handleClick={this.handleResetChallengeStore}
+            mods={['no-margin-right']}
+            text={'Restart'}
+          />
+          { clearBtn }
+          { removeLastBtn }
+        </div>
         <div className="challenge__content">
           <Answers
             answers={props.challenge.answers}
@@ -275,9 +302,6 @@ export default class Challenge extends Component {
             chords={props.challenge.challengeChords}
             handleClick={this.handleSetAnswer}
           />
-        </div>
-        <div className="challenge__clue-popup-control">
-          <Btn handleClick={this.props.toggleCluePopup} text={'Clue mode'} />
         </div>
         { cluePopup }
         { recapPopup }
@@ -306,6 +330,7 @@ Challenge.propTypes = {
   params: PropTypes.shape({
     challengeId: PropTypes.string,
   }),
+  removeLastProgressionGuess: PropTypes.func,
   resetChallengeStore: PropTypes.func,
   setChallengeChords: PropTypes.func,
   setChallengeType: PropTypes.func,
@@ -341,6 +366,7 @@ Challenge.defaultProps = {
   params: {
     challengeId: '',
   },
+  removeLastProgressionGuess: () => {},
   resetChallengeStore: () => {},
   setChallengeChords: () => {},
   setChallengeType: () => {},

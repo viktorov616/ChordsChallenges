@@ -38,7 +38,7 @@ export default function ChallengeRecapPopup(props) {
           />) }
         </ul>
         <div className="challenge-recap-popup__controls">
-          <Btn clickFunc={props.resetChallengeStore} text={'Restart'} />
+          <Btn handleClick={props.resetChallengeStore} text={'Restart'} />
           <Link to="/" className="btn">Back to challenges</Link>
         </div>
         <svg
