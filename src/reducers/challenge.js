@@ -41,7 +41,10 @@ export default function challenge(state = defaultState, action) {
       return Object.assign({}, state, { progressionChordsNumber: action.number });
     case 'SET_PROGRESSION_GUESSES':
       return Object.assign({}, state, {
-        progressionGuesses: [...state.progressionGuesses, action.guess],
+        progressionGuesses: [...state.progressionGuesses, {
+          value: action.guess,
+          id: action.id,
+        }],
       });
     case 'SET_STAGE':
       return Object.assign({}, state, { stage: action.stage });
@@ -60,9 +63,9 @@ export default function challenge(state = defaultState, action) {
       });
     }
     case 'TOGGLE_CLUE_POPUP':
-      return Object.assign({}, state, { displayCluePopup: !state.showCluePopup });
+      return Object.assign({}, state, { displayCluePopup: !state.displayCluePopup });
     case 'TOGGLE_RECAP_POPUP':
-      return Object.assign({}, state, { displayRecapPopup: !state.showRecapPopup });
+      return Object.assign({}, state, { displayRecapPopup: !state.displayRecapPopup });
     default:
       return state;
   }

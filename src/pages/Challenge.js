@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import shortid from 'shortid';
 
 import Answers from '../components/Answers';
 import Btn from '../components/Btn';
 import ChordsList from '../components/ChordsList';
+import ChallengeControls from '../components/ChallengeControls';
 import ChallengeRecapPopup from '../components/ChallengeRecapPopup';
 import CluePopup from '../components/CluePopup';
 import GuessList from '../components/GuessList';
@@ -193,15 +195,16 @@ export default class Challenge extends Component {
     if (/Single/.test(challengeType)) {
       isGuessCorrect = guess === correctAnswer[0];
     } else {
+      const id = shortid.generate();
       if (lastAnswer === true) return;
       if (progressionGuesses.length !== progressionChordsNumber - 1) {
-        this.props.setProgressionGuesses(guess);
+        this.props.setProgressionGuesses(guess, id);
 
         return;
       }
-      progressionGuessesUpdated = [...progressionGuesses, guess];
+      progressionGuessesUpdated = [...progressionGuesses, { value: guess, id }];
       isGuessCorrect = progressionGuessesUpdated.every((item, i) =>
-        item === currentChords[stage][i]);
+        item.value === currentChords[stage][i]);
 
       this.props.clearProgressionGuesses();
     }
@@ -235,6 +238,7 @@ export default class Challenge extends Component {
         chords={props.challenge.challengeChords}
         playChordSound={this.playChordSound}
         toggleCluePopup={props.toggleCluePopup}
+        type={challengeType}
       />)
       : null;
     const nextStageBtn = (lastAnswer && stage !== answers.length - 1)
@@ -252,37 +256,16 @@ export default class Challenge extends Component {
         type={props.challengeType}
       />)
       : null;
-    const clearBtn = (/Progression/.test(challengeType))
-      ? (<Btn
-        handleClick={this.props.clearProgressionGuesses}
-        mods={['no-margin-right']}
-        text={'Clear'}
-      />)
-      : null;
-    const removeLastBtn = (/Progression/.test(challengeType))
-      ? (<Btn
-        handleClick={this.props.removeLastProgressionGuess}
-        mods={['no-margin-right']}
-        text={'Remove last'}
-      />)
-      : null;
 
     return (
       <div className="challenge">
-        <div className="challenge__controls">
-          <Btn
-            handleClick={this.props.toggleCluePopup}
-            mods={['no-margin-right']}
-            text={'Clue mode'}
-          />
-          <Btn
-            handleClick={this.handleResetChallengeStore}
-            mods={['no-margin-right']}
-            text={'Restart'}
-          />
-          { clearBtn }
-          { removeLastBtn }
-        </div>
+        <ChallengeControls
+          challengeType={challengeType}
+          clearProgressionGuesses={props.clearProgressionGuesses}
+          restart={this.handleResetChallengeStore}
+          removeLastProgressionGuess={props.removeLastProgressionGuess}
+          toggleCluePopup={props.toggleCluePopup}
+        />
         <div className="challenge__content">
           <Answers
             answers={props.challenge.answers}

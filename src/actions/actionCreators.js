@@ -59,10 +59,11 @@ export function setLastAnswer(answer) {
   };
 }
 
-export function setProgressionGuesses(guess) {
+export function setProgressionGuesses(guess, id) {
   return {
     type: 'SET_PROGRESSION_GUESSES',
     guess,
+    id,
   };
 }
 

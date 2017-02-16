@@ -16,20 +16,6 @@
     position: relative;
   }
 
-  &__controls {
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 275px;
-
-    width: 275px;
-
-    padding: 50px 25px;
-
-    border-right: 1px solid $primary-color;
-
-    text-align: center;
-  }
-
   &__audio-controls {
     text-align: center;
 

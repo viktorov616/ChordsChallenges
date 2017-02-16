@@ -16,7 +16,7 @@ const plugins = [
       NODE_ENV: JSON.stringify(NODE_ENV)
     }
   }),
-  new ExtractTextPlugin(cssName, {disable: NODE_ENV === 'development'}),
+  new ExtractTextPlugin(cssName, {disable: NODE_ENV !== 'production'}),
 ];
 
 if (NODE_ENV === 'production') {
