@@ -5,32 +5,4 @@
   padding: 0 50px;
   padding-left: 100px;
   padding-bottom: 20px;
-
-  &__item-header {
-    padding: 15px 10px;
-
-    border-bottom: 1px solid $primary-color;
-
-    font-size: 18px;
-    font-weight: 700;
-    list-style: none;
-  }
-
-  &__item-stage {
-    display: inline-block;
-
-    width: 10%;
-  }
-
-  &__item-type {
-    display: inline-block;
-
-    width: 20%;
-  }
-
-  &__item-chords {
-    display: inline-block;
-    
-    width: 70%;
-  }
 } 

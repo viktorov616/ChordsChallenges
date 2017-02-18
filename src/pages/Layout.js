@@ -6,7 +6,11 @@ export default function Layout(props) {
   const nav = [{
     linkPath: '/',
     linkName: 'Challenges',
+  }, {
+    linkPath: '/manage-challenges',
+    linkName: 'Manage Challenges',
   }];
+
   return (
     <div className="layout">
       <Nav

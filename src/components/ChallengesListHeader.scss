@@ -1,0 +1,27 @@
+.challenges-list-header {
+  padding: 15px 10px;
+
+  border-bottom: 1px solid $primary-color;
+
+  font-size: 18px;
+  font-weight: 700;
+  list-style: none;
+
+  &__stage {
+    display: inline-block;
+
+    width: 10%;
+  }
+
+  &__type {
+    display: inline-block;
+
+    width: 20%;
+  }
+
+  &__chords {
+    display: inline-block;
+    
+    width: 70%;
+  }
+}

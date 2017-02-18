@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import App from './pages/App';
 import Challenges from './pages/Challenges';
 import Challenge from './pages/Challenge';
+import ManageChallenges from './pages/ManageChallenges';
 
 import store, { history } from './store';
 
@@ -17,7 +18,7 @@ const router = (
       <Route path="/" components={App}>
         <IndexRoute component={Challenges} />
         <Route path="/challenge/:challengeId" component={Challenge} />
-        <Route path="/challenge" component={Challenge} />
+        <Route path="/manage-challenges" component={ManageChallenges} />
       </Route>
     </Router>
   </Provider>

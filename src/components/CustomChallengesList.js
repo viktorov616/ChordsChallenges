@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 
 import ChallengesListHeader from './ChallengesListHeader';
-import ChallengesItem from './ChallengesItem';
+import CustomChallengesItem from './CustomChallengesItem';
 
-export default function ChallengesList(props) {
+export default function CustomChallengesList(props) {
   return (
-    <ul className="challenges-list">
+    <ul className="custom-challenges-list">
       <ChallengesListHeader />
-      { props.challenges.map(challenge => <ChallengesItem
+      { props.challenges.map(challenge => <CustomChallengesItem
         key={challenge.id}
         {...challenge}
       />) }
@@ -15,6 +15,6 @@ export default function ChallengesList(props) {
   );
 }
 
-ChallengesList.propTypes = {
+CustomChallengesList.propTypes = {
   challenges: PropTypes.array.isRequired,
 };

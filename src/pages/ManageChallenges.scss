@@ -1,0 +1,15 @@
+.manage-challenges {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 1;
+
+  position: relative;
+
+  padding: 50px;
+
+  &__notice {
+    font-size: 22px;
+  }
+}

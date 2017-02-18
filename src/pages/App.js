@@ -4,10 +4,11 @@ import * as actionCreators from '../actions/actionCreators';
 import Layout from './Layout';
 
 function mapStateToProps(state) {
-  const { challenges, challenge } = state;
+  const { challenges, challenge, manageChallenges } = state;
   return {
     challenges,
     challenge,
+    manageChallenges,
   };
 }
 

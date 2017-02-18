@@ -4,6 +4,15 @@ export function clearProgressionGuesses() {
   };
 }
 
+export function createChallenge(id, challengeType, chords) {
+  return {
+    type: 'CREATE_CHALLENGE',
+    id,
+    challengeType,
+    chords,
+  };
+}
+
 export function removeLastProgressionGuess() {
   return {
     type: 'REMOVE_LAST_PROGRESSION_GUESS',
@@ -44,18 +53,17 @@ export function setChallengeType(challengeType) {
   };
 }
 
-export function setUserAnswer(answer, stage) {
-  return {
-    type: 'SET_USER_ANSWER',
-    answer,
-    stage,
-  };
-}
-
 export function setLastAnswer(answer) {
   return {
     type: 'SET_LAST_ANSWER',
     answer,
+  };
+}
+
+export function setNoticeMessage(message) {
+  return {
+    type: 'SET_NOTICE_MESSAGE',
+    message,
   };
 }
 
@@ -88,6 +96,14 @@ export function setTimeoutsIds(timeoutsIds) {
   };
 }
 
+export function setUserAnswer(answer, stage) {
+  return {
+    type: 'SET_USER_ANSWER',
+    answer,
+    stage,
+  };
+}
+
 export function showBtnUp() {
   return {
     type: 'SHOW_BTN_UP',
@@ -103,6 +119,12 @@ export function hideBtnUp() {
 export function toggleCluePopup() {
   return {
     type: 'TOGGLE_CLUE_POPUP',
+  };
+}
+
+export function toggleCustomChallengePopup() {
+  return {
+    type: 'TOGGLE_CUSTOM_CHALLENGE_POPUP',
   };
 }
 
