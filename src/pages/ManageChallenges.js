@@ -1,16 +1,20 @@
 import React, { PropTypes } from 'react';
 
 import Btn from '../components/Btn';
-import CustomChallengesList from '../components/CustomChallengesList';
+import ChallengesList from '../components/ChallengesList';
+import CustomChallengesItem from '../components/CustomChallengesItem';
 import CustomChallengePopup from '../components/CustomChallengePopup';
 
 export default function ManageChallenges(props) {
   const {
     challengeTypes, chords, displayCustomChallengePopup, noticeMessage,
   } = props.manageChallenges;
-  const customChallenges = props.challenges.data.filter(challenge => challenge.stage === 'custom');
-  const customChallengesList = (customChallenges.length !== 0)
-    ? <CustomChallengesList challenges={customChallenges} />
+  const customChallenges = props.challenges.data.filter(challenge => challenge.stage === 'Custom');
+  const challengesList = (customChallenges.length !== 0)
+    ? (<ChallengesList
+      challenges={customChallenges}
+      item={CustomChallengesItem}
+    />)
     : <p className="manage-challenges__notice">{ 'You don\'t have any custom challenges.' }</p>;
   const customChallengePopup = (displayCustomChallengePopup)
     ? (<CustomChallengePopup
@@ -30,7 +34,7 @@ export default function ManageChallenges(props) {
         handleClick={props.toggleCustomChallengePopup}
         text={'Add challenge'}
       />
-      { customChallengesList }
+      { challengesList }
       { customChallengePopup }
     </div>
   );
@@ -44,7 +48,7 @@ ManageChallenges.propTypes = {
   createChallenge: PropTypes.func,
   manageChallenges: PropTypes.shape({
     displayCustomChallengePopup: PropTypes.bool,
-    noticeMessage: PropTypes.string,
+    noticeMessage: PropTypes.object,
   }),
   setNoticeMessage: PropTypes.func,
   toggleCustomChallengePopup: PropTypes.func,
@@ -59,7 +63,7 @@ ManageChallenges.defaultProps = {
   displayChallengePopup: false,
   manageChallenges: {
     displayChallengePopup: false,
-    noticeMessage: '',
+    noticeMessage: {},
   },
   setNoticeMessage: () => {},
   toggleCustomChallengePopup: () => {},

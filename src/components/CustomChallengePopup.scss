@@ -157,7 +157,13 @@
   &__notice {
     margin: 0;
 
-    color: #b00000;
+    &--fail {
+      color: #b00000;
+    }
+
+    &--success {
+      color: #008000;
+    }
   }
 
   &__btn-close {

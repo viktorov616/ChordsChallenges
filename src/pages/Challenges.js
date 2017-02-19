@@ -4,6 +4,7 @@ import debouce from '../utility/debouce';
 
 import BtnUp from '../components/BtnUp';
 import ChallengesList from '../components/ChallengesList';
+import ChallengesItem from '../components/ChallengesItem';
 
 export default class Challenges extends Component {
   constructor(props) {
@@ -35,7 +36,10 @@ export default class Challenges extends Component {
 
     return (
       <div className="challenges">
-        <ChallengesList challenges={this.props.challenges.data} />
+        <ChallengesList
+          challenges={this.props.challenges.data}
+          item={ChallengesItem}
+        />
         { btnUp }
       </div>
     );

@@ -3,9 +3,9 @@ import React, { PropTypes } from 'react';
 export default function CustomChallengesItem(props) {
   return (
     <li className="custom-challenges-item">
-      <span className="challenges-item__stage">{ props.stage }</span>
-      <span className="challenges-item__type">{ props.type }</span>
-      <span className="challenges-item__chords">{ props.chords.join(', ') }</span>
+      <span className="custom-challenges-item__stage">{ props.stage }</span>
+      <span className="custom-challenges-item__type">{ props.type }</span>
+      <span className="custom-challenges-item__chords">{ props.chords.join(', ') }</span>
     </li>
   );
 }

@@ -7,6 +7,7 @@ export default class CustomChallengePopup extends Component {
     super(props);
 
     this.handleCreate = this.handleCreate.bind(this);
+    this.handleSetNotice = this.handleSetNotice.bind(this);
   }
 
   handleCreate() {
@@ -16,23 +17,37 @@ export default class CustomChallengePopup extends Component {
     ), []);
     const challengeType = this.typeSelect.selectedOptions[0].value;
     const id = `${this.props.challenges.length + 1}`;
+    let noticeMessage;
+    let noticeMod;
 
     if (selectedChords.length < 2) {
-      const noticeMessage = 'You must select at least 2 chords.';
+      noticeMessage = 'You must select at least 2 chords.';
+      noticeMod = 'fail';
 
-      this.props.setNoticeMessage(noticeMessage);
+      this.props.setNoticeMessage(noticeMessage, noticeMod);
       return;
     }
 
-    this.props.setNoticeMessage('');
+    noticeMessage = 'Challenge created.';
+    noticeMod = 'success';
+
     this.props.createChallenge(id, challengeType, selectedChords);
+    this.props.setNoticeMessage(noticeMessage, noticeMod);
+  }
+
+  handleSetNotice() {
+    this.props.setNoticeMessage();
   }
 
   render() {
     const { props } = this;
     const { noticeMessage } = props;
-    const notice = (noticeMessage.length !== 0)
-     ? <p className="custom-challenge-popup__notice">{ noticeMessage }</p>
+    const noticeMessageClass = 'custom-challenge-popup__notice';
+    const noticeMessageClassModed = (noticeMessage.mod.length === 0)
+      ? noticeMessageClass
+      : `${noticeMessageClass} ${noticeMessageClass}--${noticeMessage.mod}`;
+    const notice = (noticeMessage.value.length !== 0)
+     ? <p className={noticeMessageClassModed}>{ noticeMessage.value }</p>
      : null;
 
     return (
@@ -44,6 +59,7 @@ export default class CustomChallengePopup extends Component {
             <div className="custom-challenge-popup__select-wrapper">
               <select
                 ref={(select) => { this.typeSelect = select; }}
+                onClick={this.handleSetNotice}
                 className="custom-challenge-popup__select"
               >
                 { props.challengeTypes.map(type => <option
@@ -68,6 +84,7 @@ export default class CustomChallengePopup extends Component {
                 <input
                   id={`custom-${chord}`}
                   type="checkbox"
+                  onClick={this.handleSetNotice}
                   className="custom-challenge-popup__input"
                   value={chord}
                 />
@@ -106,7 +123,10 @@ CustomChallengePopup.propTypes = {
   challenges: PropTypes.array.isRequired,
   chords: PropTypes.array.isRequired,
   createChallenge: PropTypes.func.isRequired,
-  noticeMessage: PropTypes.string.isRequired,
+  noticeMessage: PropTypes.shape({
+    mod: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  }).isRequired,
   setNoticeMessage: PropTypes.func.isRequired,
   toggleCustomChallengePopup: PropTypes.func.isRequired,
 };
