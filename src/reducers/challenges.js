@@ -14,6 +14,10 @@ export default function challenges(state = defaultState, action) {
         type: action.challengeType,
         chords: action.chords,
       }] });
+    case 'DELETE_CHALLENGE':
+      return Object.assign({}, state, {
+        data: state.data.filter(challenge => challenge.id !== action.id),
+      });
     case 'SHOW_BTN_UP':
       return Object.assign({}, state, { displayBtnUp: true });
     case 'HIDE_BTN_UP':

@@ -1,4 +1,6 @@
 .custom-challenges-item {
+  position: relative;
+
   margin-bottom: 5px;
   padding: 10px;
 
@@ -20,7 +22,28 @@
 
   &__chords {
     display: inline-block;
+
+    padding-right: 40px;
     
     width: 65%;
+  }
+
+  &__btn-close {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+
+    width: 20px;
+    height: 20px;
+
+    cursor: pointer;
+
+    &:hover {
+      opacity: .5;
+    } 
+
+    &:active {
+      opacity: .8;  
+    }
   }
 }

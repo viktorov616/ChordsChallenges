@@ -13,6 +13,7 @@ export default function ManageChallenges(props) {
   const challengesList = (customChallenges.length !== 0)
     ? (<ChallengesList
       challenges={customChallenges}
+      deleteChallenge={props.deleteChallenge}
       item={CustomChallengesItem}
     />)
     : <p className="manage-challenges__notice">{ 'You don\'t have any custom challenges.' }</p>;
@@ -46,6 +47,7 @@ ManageChallenges.propTypes = {
     data: PropTypes.array,
   }),
   createChallenge: PropTypes.func,
+  deleteChallenge: PropTypes.func,
   manageChallenges: PropTypes.shape({
     displayCustomChallengePopup: PropTypes.bool,
     noticeMessage: PropTypes.object,
@@ -60,7 +62,7 @@ ManageChallenges.defaultProps = {
     data: [],
   },
   createChallenge: () => {},
-  displayChallengePopup: false,
+  deleteChallenge: () => {},
   manageChallenges: {
     displayChallengePopup: false,
     noticeMessage: {},

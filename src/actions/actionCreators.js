@@ -13,6 +13,13 @@ export function createChallenge(id, challengeType, chords) {
   };
 }
 
+export function deleteChallenge(id) {
+  return {
+    type: 'DELETE_CHALLENGE',
+    id,
+  };
+}
+
 export function removeLastProgressionGuess() {
   return {
     type: 'REMOVE_LAST_PROGRESSION_GUESS',

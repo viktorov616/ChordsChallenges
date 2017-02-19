@@ -10,6 +10,7 @@ export default function ChallengesList(props) {
       { props.challenges.map(challenge => <Item
         key={challenge.id}
         {...challenge}
+        {...props}
       />) }
     </ul>
   );
