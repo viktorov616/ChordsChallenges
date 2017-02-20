@@ -1,3 +1,10 @@
+export function clearCustomChallengeCheckboxesValues(key) {
+  return {
+    type: 'CLEAR_CUSTOM_CHALLENGE_CHECKBOXES_VALUES',
+    key,
+  };
+}
+
 export function clearProgressionGuesses() {
   return {
     type: 'CLEAR_PROGRESSION_GUESSES',
@@ -10,6 +17,22 @@ export function createChallenge(id, challengeType, chords) {
     id,
     challengeType,
     chords,
+  };
+}
+
+export function customChallengeCheckboxActivated(key, value) {
+  return {
+    type: 'CUSTOM_CHALLENGE_CHECKBOX_ACTIVATED',
+    key,
+    value,
+  };
+}
+
+export function customChallengeCheckboxDeactivated(key, value) {
+  return {
+    type: 'CUSTOM_CHALLENGE_CHECKBOX_DEACTIVATED',
+    key,
+    value,
   };
 }
 
@@ -140,5 +163,13 @@ export function toggleCustomChallengePopup() {
 export function toggleRecapPopup() {
   return {
     type: 'TOGGLE_RECAP_POPUP',
+  };
+}
+
+export function updateCustomChallengePopup(key, value) {
+  return {
+    type: 'UPDATE_CUSTOM_CHALLENGE_POPUP',
+    key,
+    value,
   };
 }

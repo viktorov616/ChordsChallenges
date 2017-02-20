@@ -1,0 +1,49 @@
+.checkbox {
+  display: inline-block;
+
+  margin-right: 10px;
+
+  list-style: none;
+
+  font-size: 18px;
+
+  &__input {
+    display: none;
+
+    &:checked + .checkbox__label:after {
+      content: "";
+
+      position: absolute;
+      left: 5px;
+      top: 5px;
+
+      width: 15px;
+      height: 15px;
+
+      background: url("img/checkmark.svg") no-repeat;
+      background-size: 100%;
+    }
+  }
+
+  &__label {
+    position: relative;
+
+    padding-left: 30px;
+
+    cursor: pointer;
+
+    &:before {
+      content: "";
+
+      position: absolute;
+      left: 0;
+      top: 0;
+
+      width: 25px;
+      height: 25px;
+
+      border: 1px solid $secondary-color;
+      border-radius: 3px;
+    }
+  }
+}

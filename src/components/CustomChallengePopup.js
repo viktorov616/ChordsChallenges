@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
 import Btn from './Btn';
+import Checkbox from './Checkbox';
+import Select from './Select';
 
 export default class CustomChallengePopup extends Component {
   constructor(props) {
@@ -10,12 +12,13 @@ export default class CustomChallengePopup extends Component {
     this.handleSetNotice = this.handleSetNotice.bind(this);
   }
 
+  componentWillUnmount() {
+    this.props.handleClearCheckboxes('selectedChords');
+    this.handleSetNotice();
+  }
+
   handleCreate() {
-    const chordsInputs = Array.from(this.chordsList.getElementsByTagName('input'));
-    const selectedChords = chordsInputs.reduce((result, input) => (
-      (input.checked) ? result.concat(input.value) : result
-    ), []);
-    const challengeType = this.typeSelect.selectedOptions[0].value;
+    const { selectedChords, selectedType } = this.props;
     const id = `${this.props.challenges.length + 1}`;
     let noticeMessage;
     let noticeMod;
@@ -31,7 +34,7 @@ export default class CustomChallengePopup extends Component {
     noticeMessage = 'Challenge created.';
     noticeMod = 'success';
 
-    this.props.createChallenge(id, challengeType, selectedChords);
+    this.props.createChallenge(id, selectedType, selectedChords);
     this.props.setNoticeMessage(noticeMessage, noticeMod);
   }
 
@@ -56,46 +59,26 @@ export default class CustomChallengePopup extends Component {
           <h1 className="custom-challenge-popup__header">Create challenge</h1>
           <div className="custom-challenge-popup__section">
             <h2 className="custom-challenge-popup__section-header">Choose challenge type.</h2>
-            <div className="custom-challenge-popup__select-wrapper">
-              <select
-                ref={(select) => { this.typeSelect = select; }}
-                onClick={this.handleSetNotice}
-                className="custom-challenge-popup__select"
-              >
-                { props.challengeTypes.map(type => <option
-                  key={type}
-                  value={type}
-                >
-                  { type }
-                </option>) }
-              </select>
-            </div>
+            <Select
+              handleChange={this.props.updateCustomChallengePopup}
+              handleClick={this.handleSetNotice}
+              name={'selectedType'}
+              options={props.challengeTypes}
+            />
           </div>
           <div className="custom-challenge-popup__section">
             <h2 className="custom-challenge-popup__section-header">Choose chords.</h2>
-            <ul
-              ref={(chords) => { this.chordsList = chords; }}
-              className="custom-challenge-popup__chords"
-            >
-              { props.chords.map(chord => <li
+            <div className="custom-challenge-popup__chords">
+              { props.chords.map(chord => <Checkbox
                 key={`custom-${chord}`}
-                className="custom-challenge-popup__chords-item"
-              >
-                <input
-                  id={`custom-${chord}`}
-                  type="checkbox"
-                  onClick={this.handleSetNotice}
-                  className="custom-challenge-popup__input"
-                  value={chord}
-                />
-                <label
-                  htmlFor={`custom-${chord}`}
-                  className="custom-challenge-popup__label"
-                >
-                  { chord }
-                </label>
-              </li>)}
-            </ul>
+                handleCheckboxActivated={props.handleCheckboxActivated}
+                handleCheckboxDeactivated={props.handleCheckboxDeactivated}
+                handleClick={() => {}}
+                groupName={'selectedChords'}
+                id={`custom-${chord}`}
+                value={chord}
+              />)}
+            </div>
           </div>
           <Btn
             handleClick={this.handleCreate}
@@ -123,10 +106,16 @@ CustomChallengePopup.propTypes = {
   challenges: PropTypes.array.isRequired,
   chords: PropTypes.array.isRequired,
   createChallenge: PropTypes.func.isRequired,
+  handleCheckboxActivated: PropTypes.func.isRequired,
+  handleCheckboxDeactivated: PropTypes.func.isRequired,
+  handleClearCheckboxes: PropTypes.func.isRequired,
   noticeMessage: PropTypes.shape({
     mod: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   }).isRequired,
+  selectedChords: PropTypes.array.isRequired,
+  selectedType: PropTypes.string.isRequired,
   setNoticeMessage: PropTypes.func.isRequired,
   toggleCustomChallengePopup: PropTypes.func.isRequired,
+  updateCustomChallengePopup: PropTypes.func.isRequired,
 };
