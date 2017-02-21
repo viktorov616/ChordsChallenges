@@ -5,6 +5,8 @@ export default function Checkbox(props) {
     const { value } = e.target;
     const { groupName } = props;
 
+    props.handleClick();
+
     if (e.target.checked) {
       props.handleCheckboxActivated(groupName, value);
       return;
@@ -37,7 +39,11 @@ Checkbox.propTypes = {
   groupName: PropTypes.string.isRequired,
   handleCheckboxActivated: PropTypes.func.isRequired,
   handleCheckboxDeactivated: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func,
   id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
+};
+
+Checkbox.defaultProps = {
+  handleClick: () => {},
 };

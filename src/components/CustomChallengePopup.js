@@ -73,7 +73,7 @@ export default class CustomChallengePopup extends Component {
                 key={`custom-${chord}`}
                 handleCheckboxActivated={props.handleCheckboxActivated}
                 handleCheckboxDeactivated={props.handleCheckboxDeactivated}
-                handleClick={() => {}}
+                handleClick={this.handleSetNotice}
                 groupName={'selectedChords'}
                 id={`custom-${chord}`}
                 value={chord}
