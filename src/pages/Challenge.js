@@ -253,7 +253,7 @@ export default class Challenge extends Component {
         currentChords={currentChords}
         resetChallengeStore={this.handleResetChallengeStore}
         toggleRecapPopup={props.toggleRecapPopup}
-        type={props.challengeType}
+        type={props.challenge.challengeType}
       />)
       : null;
 

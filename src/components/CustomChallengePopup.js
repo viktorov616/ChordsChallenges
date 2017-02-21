@@ -5,14 +5,27 @@ import Checkbox from './Checkbox';
 import Select from './Select';
 
 export default class CustomChallengePopup extends Component {
+  static handleSubmit(e) {
+    e.preventDefault();
+
+    e.target.reset();
+  }
+
   constructor(props) {
     super(props);
 
     this.handleCreate = this.handleCreate.bind(this);
+    this.handleEsc = this.handleEsc.bind(this);
     this.handleSetNotice = this.handleSetNotice.bind(this);
   }
 
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleEsc);
+  }
+
   componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleEsc);
+
     this.props.handleClearCheckboxes('selectedChords');
     this.handleSetNotice();
   }
@@ -38,6 +51,12 @@ export default class CustomChallengePopup extends Component {
     this.props.setNoticeMessage(noticeMessage, noticeMod);
   }
 
+  handleEsc(e) {
+    if (e.keyCode === 27) {
+      this.props.toggleCustomChallengePopup();
+    }
+  }
+
   handleSetNotice() {
     this.props.setNoticeMessage();
   }
@@ -54,7 +73,7 @@ export default class CustomChallengePopup extends Component {
      : null;
 
     return (
-      <div className="custom-challenge-popup">
+      <form className="custom-challenge-popup" onSubmit={this.constructor.handleSubmit}>
         <div className="custom-challenge-popup__content">
           <h1 className="custom-challenge-popup__header">Create challenge</h1>
           <div className="custom-challenge-popup__section">
@@ -96,7 +115,7 @@ export default class CustomChallengePopup extends Component {
             <use xlinkHref="#icon-cross" />
           </svg>
         </div>
-      </div>
+      </form>
     );
   }
 }
