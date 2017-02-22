@@ -154,9 +154,9 @@ export function toggleCluePopup() {
   };
 }
 
-export function toggleCustomChallengePopup() {
+export function toggleCustomChallengeForm() {
   return {
-    type: 'TOGGLE_CUSTOM_CHALLENGE_POPUP',
+    type: 'TOGGLE_CUSTOM_CHALLENGE_FORM',
   };
 }
 
@@ -166,9 +166,9 @@ export function toggleRecapPopup() {
   };
 }
 
-export function updateCustomChallengePopup(key, value) {
+export function updateCustomChallengeForm(key, value) {
   return {
-    type: 'UPDATE_CUSTOM_CHALLENGE_POPUP',
+    type: 'UPDATE_CUSTOM_CHALLENGE_FORM',
     key,
     value,
   };

@@ -4,10 +4,12 @@ import * as actionCreators from '../actions/actionCreators';
 import Layout from './Layout';
 
 function mapStateToProps(state) {
-  const { challenges, challenge, manageChallenges } = state;
+  const { challenges, challenge, customChallengeForm, manageChallenges } = state;
+
   return {
     challenges,
     challenge,
+    customChallengeForm,
     manageChallenges,
   };
 }
