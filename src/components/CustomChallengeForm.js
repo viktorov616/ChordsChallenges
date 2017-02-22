@@ -54,47 +54,39 @@ function CustomChallengeForm(props) {
     <Form
       className={'custom-challenge-form'}
       handleSubmit={handleSubmit}
+      toggleForm={props.toggleCustomChallengeForm}
     >
-      <div className="custom-challenge-form__content">
-        <h1 className="custom-challenge-form__header">Create challenge</h1>
-        <div className="custom-challenge-form__section">
-          <h2 className="custom-challenge-form__section-header">Choose challenge type.</h2>
-          <Select
-            handleChange={props.updateCustomChallengeForm}
-            handleClick={handleSetNotice}
-            name={'selectedType'}
-            options={challengeTypes}
-          />
-        </div>
-        <div className="custom-challenge-form__section">
-          <h2 className="custom-challenge-form__section-header">Choose chords.</h2>
-          <div className="custom-challenge-form__chords">
-            { chords.map(chord => <Checkbox
-              key={`custom-${chord}`}
-              handleCheckboxActivated={props.customChallengeCheckboxActivated}
-              handleCheckboxDeactivated={props.customChallengeCheckboxDeactivated}
-              handleClick={handleSetNotice}
-              groupName={'selectedChords'}
-              id={`custom-${chord}`}
-              value={chord}
-            />)}
-          </div>
-        </div>
-        <Btn
-          handleClick={handleCreate}
-          text={'Create'}
-          mods={['big', 'no-margin']}
+      <h1 className="custom-challenge-form__header">Create challenge</h1>
+      <div className="custom-challenge-form__section">
+        <h2 className="custom-challenge-form__section-header">Choose challenge type.</h2>
+        <Select
+          handleChange={props.updateCustomChallengeForm}
+          handleClick={handleSetNotice}
+          name={'selectedType'}
+          options={challengeTypes}
         />
-        <div className="custom-challenge-form__notice-wrapper">
-          { notice }
+      </div>
+      <div className="custom-challenge-form__section">
+        <h2 className="custom-challenge-form__section-header">Choose chords.</h2>
+        <div className="custom-challenge-form__chords">
+          { chords.map(chord => <Checkbox
+            key={`custom-${chord}`}
+            handleCheckboxActivated={props.customChallengeCheckboxActivated}
+            handleCheckboxDeactivated={props.customChallengeCheckboxDeactivated}
+            handleClick={handleSetNotice}
+            groupName={'selectedChords'}
+            id={`custom-${chord}`}
+            value={chord}
+          />)}
         </div>
-        <svg
-          className="custom-challenge-form__btn-close"
-          width="25" height="25"
-          onClick={props.toggleCustomChallengeForm}
-        >
-          <use xlinkHref="#icon-cross" />
-        </svg>
+      </div>
+      <Btn
+        handleClick={handleCreate}
+        text={'Create'}
+        mods={['big', 'no-margin']}
+      />
+      <div className="custom-challenge-form__notice-wrapper">
+        { notice }
       </div>
     </Form>
   );

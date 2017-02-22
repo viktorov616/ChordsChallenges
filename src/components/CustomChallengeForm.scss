@@ -1,32 +1,16 @@
 .custom-challenge-form {
-  display: flex;
-  align-items: flex-start;
-  
-  position: absolute;
-  left: 0;
-  top: 0;
+  position: relative;
 
-  display: flex;
-  justify-content: center;
+  width: 90%;
 
-  padding-top: 50px;
-  
-  width: 100%;
-  height: 100%;
+  padding: 25px 50px;
 
-  &__content {
-    position: relative;
+  background: #fff;
 
-    width: 90%;
+  border: 2px solid $primary-color;
 
-    padding: 25px 50px;
+  text-align: center;
 
-    background: #fff;
-
-    border: 2px solid $primary-color;
-
-    text-align: center;
-  }
 
   &__header {
     margin: 0;

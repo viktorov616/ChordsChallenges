@@ -25,8 +25,17 @@ export default class Form extends Component {
     const { props } = this;
 
     return (
-      <form className={props.className} onSubmit={props.handleSubmit}>
-        { props.children }
+      <form className="form" onSubmit={props.handleSubmit}>
+        <div className={props.className}>
+          { props.children }
+          <svg
+            className={`${props.className}__btn-close`}
+            width="25" height="25"
+            onClick={props.toggleForm}
+          >
+            <use xlinkHref="#icon-cross" />
+          </svg>
+        </div>
       </form>
     );
   }
@@ -35,11 +44,13 @@ export default class Form extends Component {
 Form.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  handleSubmit: PropTypes.func,
   toggleForm: PropTypes.func,
 };
 
 Form.defaultProps = {
   children: null,
   className: '',
+  handleSubmit: () => {},
   toggleForm: () => {},
 };
