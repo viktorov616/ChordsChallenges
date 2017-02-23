@@ -15,6 +15,7 @@ export default class Challenges extends Component {
 
   componentWillMount() {
     window.addEventListener('scroll', this.checkScrollPosition);
+    this.props.saveDataInStorage();
   }
 
   componentWillUnmount() {
@@ -52,6 +53,7 @@ Challenges.propTypes = {
     displayBtnUp: PropTypes.bool,
   }),
   hideBtnUp: PropTypes.func,
+  saveDataInStorage: PropTypes.func,
   showBtnUp: PropTypes.func,
 };
 
@@ -61,5 +63,6 @@ Challenges.defaultProps = {
     displayBtnUp: false,
   },
   hideBtnUp: () => {},
+  saveDataInStorage: () => {},
   showBtnUp: () => {},
 };

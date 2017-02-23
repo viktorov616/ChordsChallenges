@@ -38,6 +38,7 @@ class CustomChallengeForm extends Component {
       noticeMod = 'fail';
 
       props.setNoticeMessage(noticeMessage, noticeMod);
+      props.clearCustomChallengeCheckboxesValues('selectedChords');
       return;
     }
 

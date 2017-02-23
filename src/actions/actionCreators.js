@@ -55,6 +55,12 @@ export function resetChallengeStore() {
   };
 }
 
+export function saveDataInStorage() {
+  return {
+    type: 'SAVE_DATA_IN_STORAGE',
+  };
+}
+
 export function setChallengeChords(chords) {
   return {
     type: 'SET_CHALLENGE_CHORDS',
