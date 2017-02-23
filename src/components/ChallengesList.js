@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react';
 
-import ChallengesListHeader from './ChallengesListHeader';
-
 export default function ChallengesList(props) {
   const Item = props.item;
   return (
     <ul className="challenges-list">
-      <ChallengesListHeader />
+      <li className="challenges-list__header">
+        <span className="challenges-list__stage">Stage</span>
+        <span className="challenges-list__type">Type</span>
+        <span className="challenges-list__chords">Chords</span>
+      </li>
       { props.challenges.map(challenge => <Item
         key={challenge.id}
         {...challenge}
