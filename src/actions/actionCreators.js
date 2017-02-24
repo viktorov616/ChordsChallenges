@@ -68,6 +68,13 @@ export function setChallengeChords(chords) {
   };
 }
 
+export function setComponentHeight(height) {
+  return {
+    type: 'SET_COMPONENT_HEIGHT',
+    height,
+  };
+}
+
 export function setCurrentChords(chords) {
   return {
     type: 'SET_CURRENT_CHORDS',

@@ -7,6 +7,7 @@ const defaultState = {
   challengeChords: [],
   challengeType: '',
   chordsSounds: {},
+  componentHeight: '100%',
   currentChords: [],
   lastAnswer: null,
   progressionGuesses: [],
@@ -33,6 +34,8 @@ export default function challenge(state = defaultState, action) {
       return Object.assign({}, state, { challengeType: action.challengeType });
     case 'SET_CHORDS_SOUNDS':
       return Object.assign({}, state, { chordsSounds: action.sounds });
+    case 'SET_COMPONENT_HEIGHT':
+      return Object.assign({}, state, { componentHeight: action.height });
     case 'SET_CURRENT_CHORDS':
       return Object.assign({}, state, { currentChords: action.chords });
     case 'SET_LAST_ANSWER':

@@ -22,8 +22,26 @@ export default class Challenge extends Component {
       {}, result, { [chord]: new Audio(require(`../sounds/${chord}.wav`)) },
     ), {});
 
-
     return chordsSounds;
+  }
+
+  static computeComponentHeight(displayPopup) {
+    if (!displayPopup) return '100%';
+
+    const popup = document.getElementById('clue-popup');
+    const popupHeight = parseInt(getComputedStyle(popup).height, 10);
+    const popupTop = popup.getBoundingClientRect().top + window.pageYOffset;
+    const popupBottom = popupTop + popupHeight;
+    const windowHeight = window.innerHeight;
+    let componentHeight;
+
+    if (popupBottom > windowHeight) {
+      componentHeight = `${popupBottom}px`;
+    } else {
+      componentHeight = '100%';
+    }
+
+    return componentHeight;
   }
 
   constructor(props) {
@@ -43,20 +61,23 @@ export default class Challenge extends Component {
   }
 
   componentWillMount() {
-    console.count('mount');
     this.setInitialState();
   }
 
-  componentWillUpdate() {
-    console.count('update');
-  }
-
   componentDidUpdate(prevProps) {
+    const { props } = this;
+    const { displayCluePopup } = props.challenge;
+    const { displayCluePopup: prevDisplayCluePopup } = prevProps.challenge;
     const prevStage = prevProps.challenge.stage;
-    const currentStage = this.props.challenge.stage;
+    const currentStage = props.challenge.stage;
 
     if (prevStage !== currentStage) {
       this.handlePlayChordSound();
+    }
+
+    if (displayCluePopup !== prevDisplayCluePopup) {
+      const newComponentHeight = this.constructor.computeComponentHeight(displayCluePopup);
+      props.setComponentHeight(newComponentHeight);
     }
   }
 
@@ -231,11 +252,13 @@ export default class Challenge extends Component {
   render() {
     const props = this.props;
     const {
-      answers, challengeType, currentChords, lastAnswer, displayCluePopup, displayRecapPopup, stage,
+      answers, challengeType, componentHeight, currentChords, lastAnswer, displayCluePopup,
+      displayRecapPopup, stage,
     } = props.challenge;
     const cluePopup = (displayCluePopup)
       ? (<CluePopup
         chords={props.challenge.challengeChords}
+        id={'clue-popup'}
         playChordSound={this.playChordSound}
         toggleCluePopup={props.toggleCluePopup}
         type={challengeType}
@@ -261,6 +284,7 @@ export default class Challenge extends Component {
       <div className="challenge">
         <ChallengeControls
           challengeType={challengeType}
+          componentHeight={componentHeight}
           clearProgressionGuesses={props.clearProgressionGuesses}
           restart={this.handleResetChallengeStore}
           removeLastProgressionGuess={props.removeLastProgressionGuess}
@@ -301,8 +325,9 @@ Challenge.propTypes = {
     answers: PropTypes.array,
     challengeChords: PropTypes.array,
     challengeType: PropTypes.string,
-    currentChords: PropTypes.array,
     chordsSounds: PropTypes.object,
+    componentHeight: PropTypes.string,
+    currentChords: PropTypes.array,
     lastAnswer: checkStringNullPropType,
     progressionGuesses: PropTypes.array,
     progressionChordsNumber: PropTypes.number,
@@ -320,6 +345,7 @@ Challenge.propTypes = {
   setChallengeChords: PropTypes.func,
   setChallengeType: PropTypes.func,
   setChordsSounds: PropTypes.func,
+  setComponentHeight: PropTypes.func,
   setCurrentChords: PropTypes.func,
   setLastAnswer: PropTypes.func,
   setProgressionGuesses: PropTypes.func,
@@ -339,8 +365,9 @@ Challenge.defaultProps = {
     answers: [],
     challengeChords: [],
     challengeType: '',
-    currentChords: [],
     chordsSounds: {},
+    componentHeight: '',
+    currentChords: [],
     lastAnswer: null,
     progressionGuesses: [],
     progressionChordsNumber: 4,
@@ -358,6 +385,7 @@ Challenge.defaultProps = {
   setChallengeChords: () => {},
   setChallengeType: () => {},
   setChordsSounds: () => {},
+  setComponentHeight: () => {},
   setCurrentChords: () => {},
   setLastAnswer: () => {},
   setProgressionGuesses: () => {},

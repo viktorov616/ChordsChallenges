@@ -27,9 +27,7 @@ export default class ManageChallenges extends Component {
     const { props } = this;
     const { displayBtnUp, displayCustomChallengeForm } = props.manageChallenges;
 
-    if (window.pageYOffset > 150
-      && !displayBtnUp
-      && !displayCustomChallengeForm) {
+    if (window.pageYOffset > 150 && !displayBtnUp && !displayCustomChallengeForm) {
       props.showBtnUp();
     } else if ((window.pageYOffset < 150 && displayBtnUp)
       || (displayCustomChallengeForm && displayBtnUp)) {

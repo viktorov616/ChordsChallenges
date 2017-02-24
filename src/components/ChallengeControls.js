@@ -20,7 +20,7 @@ export default function ChallengeControls(props) {
     : null;
 
   return (
-    <div className="challenge-controls">
+    <div className="challenge-controls" style={{ 'min-height': `${props.componentHeight}` }}>
       <Btn
         handleClick={props.toggleCluePopup}
         mods={['no-margin-right']}
@@ -40,6 +40,7 @@ export default function ChallengeControls(props) {
 ChallengeControls.propTypes = {
   challengeType: PropTypes.string.isRequired,
   clearProgressionGuesses: PropTypes.func.isRequired,
+  componentHeight: PropTypes.string.isRequired,
   removeLastProgressionGuess: PropTypes.func.isRequired,
   restart: PropTypes.func.isRequired,
   toggleCluePopup: PropTypes.func.isRequired,

@@ -11,7 +11,7 @@ export default function CluePopup(props) {
   }
 
   return (
-    <div className="clue-popup">
+    <div id={props.id} className="clue-popup">
       <div className="clue-popup__control">
         <Btn
           handleClick={props.toggleCluePopup}
@@ -28,6 +28,11 @@ export default function CluePopup(props) {
 
 CluePopup.propTypes = {
   chords: PropTypes.array.isRequired,
+  id: PropTypes.string,
   playChordSound: PropTypes.func.isRequired,
   toggleCluePopup: PropTypes.func.isRequired,
+};
+
+CluePopup.defaultProps = {
+  id: '',
 };
