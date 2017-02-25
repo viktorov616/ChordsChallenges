@@ -34,4 +34,69 @@
 
     margin-bottom: 10px;
   }
+
+  span > &__clue-popup {
+    &--fade-enter {
+      left: -30%;
+    }
+    &--fade-enter-active {
+      left: 12px;
+
+      transition: .4s ease-in all;
+    }
+
+    &--fade-leave {
+      left: 12px;
+
+    }
+
+    &--fade-leave-active {
+      left: -30%;
+
+      transition: .3s ease-out all;
+    }
+  }
+
+  span > &__recap-popup {
+    &--fade-enter {
+      left: -80%;
+    }
+    &--fade-enter-active {
+      left: 0;
+
+      transition: .6s ease-in all;
+    }
+
+    &--fade-leave {
+      left: 0;
+
+    }
+
+    &--fade-leave-active {
+      left: -80%;
+
+      transition: .4s ease-out all;
+    }
+  }
+
+  span > &__stage-controls {
+    &--fade-enter {
+      opacity: 0;
+    }
+    &--fade-enter-active {
+      opacity: 1;
+
+      transition: .2s ease-in all;
+    }
+
+    &--fade-leave {
+      opacity: 1;
+    }
+
+    &--fade-leave-active {
+      opacity: 0;
+
+      transition: .2s ease-out all;
+    }
+  }
 }

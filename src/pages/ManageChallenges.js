@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Btn from '../components/Btn';
 import BtnUp from '../components/BtnUp';
@@ -60,8 +61,20 @@ export default class ManageChallenges extends Component {
           text={'Add challenge'}
         />
         { challengesList }
-        { customChallengeForm }
-        { btnUp }
+        <ReactCSSTransitionGroup
+          transitionName="manage-challenges__custom-challenge-form--fade"
+          transitionEnterTimeout={600}
+          transitionLeaveTimeout={400}
+        >
+          { customChallengeForm }
+        </ReactCSSTransitionGroup>
+        <ReactCSSTransitionGroup
+          transitionName="manage-challenges__btn-up--fade"
+          transitionEnterTimeout={100}
+          transitionLeaveTimeout={100}
+        >
+          { btnUp }
+        </ReactCSSTransitionGroup>
       </div>
     );
   }

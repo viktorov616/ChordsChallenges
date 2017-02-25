@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import debouce from '../utility/debouce';
 
@@ -41,7 +42,13 @@ export default class Challenges extends Component {
           challenges={this.props.challenges.data}
           item={ChallengesItem}
         />
-        { btnUp }
+        <ReactCSSTransitionGroup
+          transitionName="challenges__btn-up--fade"
+          transitionEnterTimeout={100}
+          transitionLeaveTimeout={100}
+        >
+          { btnUp }
+        </ReactCSSTransitionGroup>
       </div>
     );
   }

@@ -12,4 +12,47 @@
   &__notice {
     font-size: 22px;
   }
+
+  span > &__btn-up {
+    &--fade-enter {
+      opacity: 0;
+    }
+    &--fade-enter-active {
+      opacity: 1;
+
+      transition: .1s ease-in all;
+    }
+
+    &--fade-leave {
+      opacity: 1;
+    }
+
+    &--fade-leave-active {
+      opacity: 0;
+
+      transition: .1s ease-out all;
+    }
+  }
+
+  span > &__custom-challenge-form {
+    &--fade-enter {
+      left: -100%;
+    }
+    &--fade-enter-active {
+      left: 0;
+
+      transition: .6s ease-in all;
+    }
+
+    &--fade-leave {
+      left: 0;
+
+    }
+
+    &--fade-leave-active {
+      left: -100%;
+
+      transition: .4s ease-out all;
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import shortid from 'shortid';
 
 import Answers from '../components/Answers';
@@ -302,16 +303,34 @@ export default class Challenge extends Component {
             <Btn handleClick={this.stopChordSound} text={'Stop'} />
           </div>
           <div className="challenge__stage-controls">
-            { nextStageBtn }
-            { recapPopupBtn }
+            <ReactCSSTransitionGroup
+              transitionName="challenge__stage-controls--fade"
+              transitionEnterTimeout={200}
+              transitionLeaveTimeout={200}
+            >
+              { nextStageBtn }
+              { recapPopupBtn }
+            </ReactCSSTransitionGroup>
           </div>
           <ChordsList
             chords={props.challenge.challengeChords}
             handleClick={this.handleSetAnswer}
           />
         </div>
-        { cluePopup }
-        { recapPopup }
+        <ReactCSSTransitionGroup
+          transitionName="challenge__clue-popup--fade"
+          transitionEnterTimeout={400}
+          transitionLeaveTimeout={300}
+        >
+          { cluePopup }
+        </ReactCSSTransitionGroup>
+        <ReactCSSTransitionGroup
+          transitionName="challenge__recap-popup--fade"
+          transitionEnterTimeout={600}
+          transitionLeaveTimeout={400}
+        >
+          { recapPopup }
+        </ReactCSSTransitionGroup>
       </div>
     );
   }

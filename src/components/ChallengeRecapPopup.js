@@ -15,12 +15,17 @@ export default function ChallengeRecapPopup(props) {
     return accuracy;
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
+
   const accuracy = computeAccuracy(props.answers);
   const chordsHeader = (props.type === 'Single') ? 'Chord' : 'Chords';
 
   return (
     <Form
       className="challenge-recap-popup"
+      handleSubmit={handleSubmit}
       toggleForm={props.toggleRecapPopup}
     >
       <h1 className="challenge-recap-popup__header">Results</h1>
