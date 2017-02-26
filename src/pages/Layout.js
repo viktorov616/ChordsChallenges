@@ -4,10 +4,10 @@ import Nav from '../components/Nav';
 
 export default function Layout(props) {
   const nav = [{
-    linkPath: '/',
+    linkPath: '/ChordsChallenges/',
     linkName: 'Challenges',
   }, {
-    linkPath: '/manage-challenges',
+    linkPath: '/ChordsChallenges/manage-challenges',
     linkName: 'Manage Challenges',
   }];
 

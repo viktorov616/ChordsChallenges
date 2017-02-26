@@ -15,10 +15,10 @@ import './style.scss';
 const router = (
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" components={App}>
+      <Route path="/ChordsChallenges/" components={App}>
         <IndexRoute component={Challenges} />
-        <Route path="/challenge/:challengeId" component={Challenge} />
-        <Route path="/manage-challenges" component={ManageChallenges} />
+        <Route path="/ChordsChallenges/challenge/:challengeId" component={Challenge} />
+        <Route path="/ChordsChallenges/manage-challenges" component={ManageChallenges} />
       </Route>
     </Router>
   </Provider>

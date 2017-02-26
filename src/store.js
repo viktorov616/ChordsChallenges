@@ -1,16 +1,10 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import createLogger from 'redux-logger';
+import { createStore } from 'redux';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import rootReducer from './reducers/index';
 
-const loggerMiddleware = createLogger();
-const enhancers = compose(
-  applyMiddleware(loggerMiddleware),
-  (window.devToolsExtension) ? window.devToolsExtension() : f => f,
-);
 const defaultState = {};
-const store = createStore(rootReducer, defaultState, enhancers);
+const store = createStore(rootReducer, defaultState);
 export const history = syncHistoryWithStore(browserHistory, store);
 
 if (module.hot) {

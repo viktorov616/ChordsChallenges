@@ -5,7 +5,7 @@ export default function ChallengesItem(props) {
   return (
     <li className="challenges-item">
       <Link
-        to={`/challenge/${props.id}`}
+        to={`/ChordsChallenges/challenge/${props.id}`}
         className="challenges-item__link"
       >
         <span className="challenges-item__stage">{ props.stage }</span>

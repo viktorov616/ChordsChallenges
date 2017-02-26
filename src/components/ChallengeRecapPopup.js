@@ -47,7 +47,7 @@ export default function ChallengeRecapPopup(props) {
       </ul>
       <div className="challenge-recap-popup__controls">
         <Btn handleClick={props.resetChallengeStore} text={'Restart'} />
-        <Link to="/" className="btn">Back to challenges</Link>
+        <Link to="/ChordsChallenges/" className="btn">Back to challenges</Link>
       </div>
     </Form>
   );
