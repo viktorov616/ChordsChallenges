@@ -104,7 +104,6 @@ export function setLastAnswer(answer) {
 }
 
 export function setNoticeMessage(message = '', mod = '') {
-  console.log(message);
   return {
     type: 'SET_NOTICE_MESSAGE',
     message,

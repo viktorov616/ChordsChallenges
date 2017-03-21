@@ -182,25 +182,18 @@ export default class Challenge extends Component {
   }
 
   stopChordSound() {
-    const {
-      challengeType, chordsSounds, currentChords, stage, timeoutsIds,
-    } = this.props.challenge;
+    const { challengeType, chordsSounds, timeoutsIds } = this.props.challenge;
 
-    if (/Single/.test(challengeType)) {
-      const chord = currentChords[stage][0];
-      const chordSound = chordsSounds[chord];
-
-      chordSound.pause();
-      chordSound.currentTime = 0;
-    } else {
+    if (/Progression/.test(challengeType)) {
       this.constructor.clearTimeouts(timeoutsIds);
-
-      currentChords[stage].forEach((chord) => {
-        const chordSound = chordsSounds[chord];
-        chordSound.pause();
-        chordSound.currentTime = 0;
-      });
     }
+
+    Object.values(chordsSounds).forEach((chordSound) => {
+      const sound = chordSound;
+
+      sound.pause();
+      sound.currentTime = 0;
+    });
   }
 
   handleSetAnswer(e) {
